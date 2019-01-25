@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="FlyKnows | js | css">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/image/favicon.ico">
+
+    <title>
+        
+          Seajs的使用 - FlyKnows
+        
+    </title>
+
+    <link rel="canonical" href="http://flyknows.com/2015/01/16/Seajs的使用/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">FlyKnows</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://flyknows.com/image/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/image/bg/home-bg2.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#前端工具" title="前端工具">前端工具</a>
+                        
+                    </div>
+                    <h1>Seajs的使用</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by luoxiao on
+                        2015-01-16
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>本文主要描述一下使用sea.js的好处，如何去使用sea.js进行模块化开发，以及grunt和sea.js的搭配使用。<br><a id="more"></a></p>
+<h2 id="为什么要使用sea-js"><a href="#为什么要使用sea-js" class="headerlink" title="为什么要使用sea.js?"></a>为什么要使用sea.js?</h2><p>当我们一个项目越做越大的时候，维护起来肯定没那么方便，且多人协作的去进行开发，当中肯定会遇到很多的问题，例如：</p>
+<ul>
+<li>方法的覆盖，很有可能你定义的一些函数会覆盖公共类中同名的函数，因为你可能根本就不知道公共类中有哪些函数，也不知道是如何命名的。</li>
+<li>公共方法的维护，在项目中有很多的公共方法，例如模态框、弹窗等等，也许每个页面都会引入这些公共的组件，但是你又不知道这些组件又会依赖哪些模块，同时在维护这些公共方法的时候，会新增一些依赖或者删除一些依赖，那么每个引入这些公共方法的地方都需要去对应的新增或者删除。<br>等等，还会存在很多的问题。那么sea.js就是为了解决这些问题的。</li>
+</ul>
+<h2 id="使用sea-js的好处"><a href="#使用sea-js的好处" class="headerlink" title="使用sea.js的好处"></a>使用sea.js的好处</h2><ul>
+<li>sea.js遵循CMD模块定义规范，和node.js模块规范非常相似，一个文件就是一个模块，每个模块通过exports向外提供接口，使用方引入需要的模块，调用相应模块的外部方法。这样不需要全局变量，方法之间不会有命名冲突。</li>
+<li>依赖内置，引入依赖的时候，只需要关注自己需要的模块，维护成本降低。</li>
+</ul>
+<h2 id="如何使用sea-js"><a href="#如何使用sea-js" class="headerlink" title="如何使用sea.js"></a>如何使用sea.js</h2><h3 id="1-下载sea-js文件"><a href="#1-下载sea-js文件" class="headerlink" title="1.下载sea.js文件"></a>1.下载sea.js文件</h3><p>我们可以在github上进行下载，里面提供了各个版本的sea.js文件，同时<a href="http://seajs.org" target="_blank" rel="noopener">http://seajs.org</a>上有很全面的使用文档，以供我们去进行学习。</p>
+<h3 id="2-在页面中引入sea-js文件"><a href="#2-在页面中引入sea-js文件" class="headerlink" title="2.在页面中引入sea.js文件"></a>2.在页面中引入sea.js文件</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"./sea.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="3-如何去定义一个符合CMD规范的sea模块"><a href="#3-如何去定义一个符合CMD规范的sea模块" class="headerlink" title="3.如何去定义一个符合CMD规范的sea模块"></a>3.如何去定义一个符合CMD规范的sea模块</h3><p>这里我们去新建一个module1.js这个文件,代码如下:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//变成sea的模块</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require,exports,module</span>)</span>&#123; <span class="comment">//参数不能修改</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">show</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		alert(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//exports对外提供接口的对象</span></span><br><span class="line">	exports.show = show;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>我们只需要将方法通过define进行包裹，这样就可以定义成一个sea模块，其中有三个参数，require用来获取或者说引用指定模块的接口,exports用来模块内部对外提供接口，module存储了模块的元数据的一些信息。<br>我们定义方法写在define里面，然后通过exports提供对外的接口，方便其他模块去进行调用。</p>
+<h3 id="4-引入其他模块"><a href="#4-引入其他模块" class="headerlink" title="4.引入其他模块"></a>4.引入其他模块</h3><p>首先我们新建一个module3.js这个文件，里面提供一个变量。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require,exports,module</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> a = <span class="number">100</span>;</span><br><span class="line">	exports.a=a;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>这样我们把a这个变量通过exports提供出去，接着新建一个module2.js模块<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//变成sea的模块</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require,exports,module</span>)</span>&#123; <span class="comment">//参数不能修改</span></span><br><span class="line">	<span class="comment">//require:模块之间依赖的接口</span></span><br><span class="line">	<span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">"./module3.js"</span>).a;  <span class="comment">//如果引入的是一个模块,则exports为返回的结果</span></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">show</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		alert(a);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//exports对外提供接口的对象</span></span><br><span class="line">	exports.show = show;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>这里通过require去引入module3模块，返回的是该模块的exports对象，然后去调用a这个变量，就会得到它的结果,然后把这个结果也通过show方法，对外提供出去。</p>
+<h3 id="5-如何使用sea模块"><a href="#5-如何使用sea模块" class="headerlink" title="5.如何使用sea模块"></a>5.如何使用sea模块</h3><p>这里我们新建一个sea.html页面：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"./sea.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">			<span class="comment">//sea的默认以sea.js为目录路径</span></span></span><br><span class="line"><span class="javascript">			seajs.use(<span class="string">'./module1.js'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">ex</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">				<span class="comment">//回调函数的参数为exports</span></span></span><br><span class="line"><span class="undefined">				ex.show();</span></span><br><span class="line"><span class="undefined">			&#125;);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">			seajs.use(<span class="string">'./module2.js'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">ex</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">				<span class="comment">//回调函数的参数为exports</span></span></span><br><span class="line"><span class="undefined">				ex.show();</span></span><br><span class="line"><span class="undefined">			&#125;);</span></span><br><span class="line"><span class="undefined">		</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>通过seajs.use()这个方法，传一个指定的路径去使用sea模块，这时候会有一个回调函数，回调函数的参数就是exports，通过exports就可以去调用相应的方法。这里我们去引用了两个模块，分别调用show方法，它们回去执行各自相应的show()方法，不会出现因为重名而造成方法的覆盖。这里就算再去页面里面去定义一个全局的show()方法，也不会有任何的影响。同时，我们也只需要去关注本模块的依赖，至于module2里面又去引入了module3，这个就不需要去关注了。这就是模块化给我们带来的好处。<br>当然上面的方法也可以简化的去写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">	&lt;head&gt;</span><br><span class="line">		&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"./sea.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line">		&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">			<span class="comment">//sea的默认以sea.js为目录路径</span></span><br><span class="line">			seajs.use([<span class="string">'./module1.js'</span>,<span class="string">'./module2.js'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">ex1,ex2</span>)</span>&#123;</span><br><span class="line">				<span class="comment">//回调函数的参数为exports</span></span><br><span class="line">				ex1.show();</span><br><span class="line">				ex2.show();</span><br><span class="line">			&#125;);</span><br><span class="line">		&lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp">	&lt;/</span>head&gt;</span><br><span class="line">	&lt;body&gt;</span><br><span class="line">	&lt;<span class="regexp">/body&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这里也需要注意，seajs.use()里面传递的路径，是以sea.js这个文件所在的路径去寻找的。</p>
+<h3 id="6-sea-js中使用grunt构建"><a href="#6-sea-js中使用grunt构建" class="headerlink" title="6.sea.js中使用grunt构建"></a>6.sea.js中使用grunt构建</h3><p>上一节我们介绍了如何使用grunt进行js的合并及压缩，那么在使用sea.js的项目中，我们对js进行合并压缩将会存在一些问题，因为当这些模块压缩在一起之后，通过require去进行调用的时候找不到相应的模块文件，这个时候我们需要使用这样一个插件：grunt-cmd-transport  , 同时的合并的插件也应该修改为符合CMD规范的，需要使用：grunt-cmd-concat<br>package.json及Gruntfile.js如下所示：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"webQQ3"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"0.1.0"</span>,</span><br><span class="line">  <span class="attr">"devDependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"grunt"</span>: <span class="string">"~0.4.5"</span>,</span><br><span class="line">    <span class="attr">"grunt-cmd-transport"</span>: <span class="string">"~0.3.0"</span>,</span><br><span class="line">    <span class="attr">"grunt-cmd-concat"</span>: <span class="string">"~0.2.7"</span>,</span><br><span class="line">    <span class="attr">"grunt-contrib-uglify"</span>: <span class="string">"~0.3.2"</span>,</span><br><span class="line">    <span class="attr">"grunt-contrib-clean"</span> : <span class="string">"~0.6.0"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">grunt</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Project configuration.</span></span><br><span class="line">  grunt.initConfig(&#123;</span><br><span class="line">    pkg: grunt.file.readJSON(<span class="string">'package.json'</span>),</span><br><span class="line"></span><br><span class="line">    transport : &#123;</span><br><span class="line">      webQQ3 : &#123;</span><br><span class="line">        files : &#123;</span><br><span class="line">          <span class="string">'.build'</span> : [<span class="string">'main.js'</span>,<span class="string">'drag.js'</span>,<span class="string">'scale.js'</span>]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    concat : &#123;</span><br><span class="line">      webQQ3 : &#123;</span><br><span class="line">        files : &#123;</span><br><span class="line">          <span class="string">'dist/main.js'</span> : [<span class="string">'.build/main.js'</span>,<span class="string">'.build/drag.js'</span>,<span class="string">'.build/scale.js'</span>]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    uglify:&#123;</span><br><span class="line">      webQQ3 : &#123;</span><br><span class="line">        files : &#123;</span><br><span class="line">           <span class="string">'dist/main.min.js'</span> : [<span class="string">'dist/main.js'</span>]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    clean: [<span class="string">".build"</span>]</span><br><span class="line"></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// 加载包含 "concat" 任务的插件。</span></span><br><span class="line">  grunt.loadNpmTasks(<span class="string">'grunt-cmd-concat'</span>);</span><br><span class="line">  grunt.loadNpmTasks(<span class="string">'grunt-contrib-uglify'</span>);</span><br><span class="line">  grunt.loadNpmTasks(<span class="string">'grunt-cmd-transport'</span>);</span><br><span class="line">  grunt.loadNpmTasks(<span class="string">'grunt-contrib-clean'</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 默认被执行的任务列表。</span></span><br><span class="line">  grunt.registerTask(<span class="string">'default'</span>, [<span class="string">'transport'</span>,<span class="string">'concat'</span>,<span class="string">'uglify'</span>,<span class="string">'clean'</span>]);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>grunt-cmd-transport这个任务会递归目标js文件寻找所有以相对路径方式引用所依赖的模块，包括模块中嵌套引用的模块，接着对每一个模块进行id的生成和dependence的提取，最后把每一个模块生成到临时文件夹中（默认是当前目录的.build目录）。有依赖模块将会这样被提取，例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="string">"main"</span>, [ <span class="string">"./drag"</span>, <span class="string">"./scale"</span> ], <span class="function"><span class="keyword">function</span>(<span class="params">require, exports, module</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> oInput = <span class="built_in">document</span>.getElementById(<span class="string">"input1"</span>);</span><br><span class="line">    <span class="keyword">var</span> oDiv1 = <span class="built_in">document</span>.getElementById(<span class="string">"div1"</span>);</span><br><span class="line">    <span class="keyword">var</span> oDiv2 = <span class="built_in">document</span>.getElementById(<span class="string">"div2"</span>);</span><br><span class="line">    <span class="keyword">var</span> oDiv3 = <span class="built_in">document</span>.getElementById(<span class="string">"div3"</span>);</span><br><span class="line">    <span class="built_in">require</span>(<span class="string">"./drag"</span>).drag(oDiv3);</span><br><span class="line">    oInput.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        oDiv1.style.display = <span class="string">"block"</span>;</span><br><span class="line">        <span class="built_in">require</span>(<span class="string">"./scale"</span>).scale(oDiv1, oDiv2);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>main是本模块，后面跟着一个数组，数组里面是依赖的模块文件。这样对sea.js模块进行grunt自动构建就没有问题了。不过在使用sea.js 2.3.0的时候，会有一些问题，页面无效果，但是修改成较为稳定的1.3.1的时候，就没有问题了。</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2015/01/26/Juicer前端模板引擎/" data-toggle="tooltip" data-placement="top" title="Juicer前端模板引擎">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2015/01/15/Grunt的使用/" data-toggle="tooltip" data-placement="top" title="Grunt的使用">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#前端工具" title="前端工具">前端工具</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://huangxuan.me/" target="_blank">黄玄Blog</a></li>
+                    
+                        <li><a href="https://github.com/Huxpro/huxpro.github.io" target="_blank">hux theme</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "http://flyknows.com/2015/01/16/Seajs的使用/";
+    var disqus_url = "http://flyknows.com/2015/01/16/Seajs的使用/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/luo-xiao-97">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2680309633">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/luoxiaowang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/肖-罗-46b9b4112">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; FlyKnows 2019 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://flyknows.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://flyknows.com/image/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

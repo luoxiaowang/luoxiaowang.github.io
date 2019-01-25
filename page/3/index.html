@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="FlyKnows | js | css">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/image/favicon.ico">
+
+    <title>
+        
+          FlyKnows
+        
+    </title>
+
+    <link rel="canonical" href="http://flyknows.com/page/3/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">FlyKnows</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/image/bg/home-bg2.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>FlyKnows</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">Record My Life and Front-End</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+
+                <!-- Main Content -->
+
+
+<div class="post-preview">
+
+    <a href="/2015/09/09/js面向对象概念/">
+        <h2 class="post-title">
+            js面向对象概念
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文简单的总结了一下作者在理解js面向对象过程中的一些重要的概念，便于日后回顾起来更加容易一些。
+对象的创建方式有两种：
+创建一个Object实例的方式    
+采用对象自变量语法，也是就用json的数据格式12345678910111213141516171819202122window.onload=function()&#123;	//创建一个Object实例的方式	var obj =......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2015-09-09
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2015/06/18/移动端图片轮播实现/">
+        <h2 class="post-title">
+            移动端图片轮播实现
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            移动端的项目大多都会用到图片轮播这个功能，这里简单的阐述一下轮播的实现方式，没有对组件进行封装，仅仅说明下实现的原理，后期再对其进行统一封装。
+一、公共方法和变量这里首先，我们看一下这里使用到的一些公共的方法和变量:1234567891011121314151617//当前设备的宽、高度function view() &#123;    return &#123;        w: doc......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2015-06-18
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2015/03/26/自定义下拉框/">
+        <h2 class="post-title">
+            自定义下拉框
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文将介绍下自定义下拉框的简单做法。
+前言由于最近的项目中需要用到下拉框，但是原生的下拉框实在是不太美观，因此需要自定义下拉框。本来是想着到网上随便下一个就拿着用，但是下了好几个插件都无法满足要求，纠结了好久，于是想着为什么不自己写一个算了。
+外观样式原本想直接将原生的select下拉框的样式给改一下，但是兼容性不太好，并且也不太好看。于是，就用网上大家都使用的方式，用ul来模拟select......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2015-03-26
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2015/03/16/js面向对象的一些总结/">
+        <h2 class="post-title">
+            js面向对象的一些总结
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文将会简单的介绍一下对象的几种创建方式，以及工厂方法，工厂方法的优缺点，以及对象继承等等知识点，这里我们只是大概的介绍一下，之后会有针对每个知识点细节的讲解。
+一、创建对象对象的创建方式有两种：
+
+创建一个Object实例的方式    
+采用对象自变量语法，也是就用json的数据格式12345678910111213141516171819202122window.onload=funct......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2015-03-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2015/03/16/json格式转换及兼容性处理/">
+        <h2 class="post-title">
+            json格式转换及兼容性处理
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            这里我们讨论下json与字符串的相互转换，以及json在低版本浏览器下的兼容性问题如何处理，同时也简单的说明了一下如何实现对象的深拷贝和浅拷贝。
+一、json字符串转换为json对象1234var str = '&#123;"name":"luoxiao"&#125;'; //严格模式才能转换                var json = JSON.parse(str); //字符串转......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2015-03-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2015/03/10/侧边栏效果/">
+        <h2 class="post-title">
+            侧边栏效果
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文主要是介绍一下网页中侧边栏效果的几种实现的方式，顺便也总结一下其中遇到的一些知识点。
+前言网页的侧边栏大家一定都见过，在我们浏览网页的时候，侧边栏有时候会以广告的形式出现，又或者是以导航栏菜单的形式出现。它们都是随着鼠标滚轮的运动而运动，始终出现在我们的侧边。例如bootstrap网站上的这种侧边栏菜单的效果：那么我们今天也来简单的实现一下这样的效果。
+CSS布局实现侧边栏菜单一直固定在......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2015-03-10
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2015/03/09/关于move.js的一些吐槽/">
+        <h2 class="post-title">
+            关于move.js的一些吐槽
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            介绍一下使用move.js过程中的一些问题。
+前言今天使用了一下move.js这个库，原本是想方便一点，不想写js的运动。但是在使用的过程中遇到了一些坑，并且都是官方文档里面都没有写出来的，用的非常的揪心。
+关于引入move.js的问题这里需要注意，move.js不能够在head里面去引入，否则会报错找不到move函数，如下：就算是在window.onload事件里面去使用move函数，也还......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2015-03-09
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2015/03/05/js选项卡的实现原理/">
+        <h2 class="post-title">
+            js选项卡的实现原理
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文将会介绍一下，如何使用javascript来实现一个简单的选项卡，界面比较简单，只要把原理弄清楚就好。
+实现步骤
+页面结构首先是按钮，其次是每个按钮对应的内容，给当前的按钮设置一个class样式
+给每个按钮设置一个监听事件
+点击按钮的时候，首先清除所有按钮的样式，以及将所有的内容隐藏
+获取当前这个按钮的索引，给当前点击的按钮设置样式，同时显示当前按钮的索引值所对应的内容
+
+代码分析根据步......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2015-03-05
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2015/02/07/前端学习计划/">
+        <h2 class="post-title">
+            前端学习计划
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2015-02-07
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2015/01/28/Reset CSS/">
+        <h2 class="post-title">
+            Reset CSS
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文主要展示一下自己在开发过程中会用到的reset.css的一些样式。12345678910111213141516171819202122232425262728293031323334353637383940414243/*CSS Reset*//* 清除内外边距 */body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structur......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2015-01-28
+    </p>
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+        <li class="previous">
+            <a href="/page/2/">&larr; Newer Posts</a>
+        </li>
+    
+    
+        <li class="next">
+            <a href="/page/4/">Older Posts &rarr;</a>
+        </li>
+    
+</ul>
+
+
+
+                <!-- 如果开启评论功能 -->
+                
+
+            </div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                            <a href="/tags/#乱七八糟" title="乱七八糟" rel="7">乱七八糟</a>
+                            
+                        
+                            
+                            <a href="/tags/#前端技术" title="前端技术" rel="8">前端技术</a>
+                            
+                        
+                            
+                            <a href="/tags/#CSS" title="CSS" rel="5">CSS</a>
+                            
+                        
+                            
+                            <a href="/tags/#前端工具" title="前端工具" rel="7">前端工具</a>
+                            
+                        
+                            
+                            <a href="/tags/#Javascript" title="Javascript" rel="8">Javascript</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#nodejs" title="nodejs" rel="4">nodejs</a>
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+
+                        
+                            <img src="/image/bg/person.png">
+                        
+
+                        
+                            <p>罗肖<br>美团点评FE<br>热爱前端，热爱旅游，望有生之年能环游世界<br>人生是一场旅行，希望自己能有多远，浪多远！</p>
+                        
+
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                            
+                                <li>
+                                    <a target="_blank" href="https://www.zhihu.com/people/luo-xiao-97">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa  fa-stack-1x fa-inverse">知</i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+                                <li>
+                                    <a target="_blank" href="http://weibo.com/2680309633">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+
+                            
+                                <li>
+                                    <a target="_blank" href="https://github.com/luoxiaowang">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+
+                            
+                                <li>
+                                    <a target="_blank" href="https://www.linkedin.com/in/肖-罗-46b9b4112">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://huangxuan.me/" target="_blank">黄玄Blog</a></li>
+                    
+                        <li><a href="https://github.com/Huxpro/huxpro.github.io" target="_blank">hux theme</a></li>
+                    
+                </ul>
+                
+            </div>
+        
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/luo-xiao-97">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2680309633">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/luoxiaowang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/肖-罗-46b9b4112">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; FlyKnows 2019 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://flyknows.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://flyknows.com/image/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

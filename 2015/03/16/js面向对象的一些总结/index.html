@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="FlyKnows | js | css">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/image/favicon.ico">
+
+    <title>
+        
+          js面向对象的一些总结 - FlyKnows
+        
+    </title>
+
+    <link rel="canonical" href="http://flyknows.com/2015/03/16/js面向对象的一些总结/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">FlyKnows</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://flyknows.com/image/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/image/bg/home-bg2.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Javascript" title="Javascript">Javascript</a>
+                        
+                    </div>
+                    <h1>js面向对象的一些总结</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by luoxiao on
+                        2015-03-16
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>本文将会简单的介绍一下对象的几种创建方式，以及工厂方法，工厂方法的优缺点，以及对象继承等等知识点，这里我们只是大概的介绍一下，之后会有针对每个知识点细节的讲解。<br><a id="more"></a></p>
+<h3 id="一、创建对象"><a href="#一、创建对象" class="headerlink" title="一、创建对象"></a>一、创建对象</h3><p>对象的创建方式有两种：</p>
+<ul>
+<li>创建一个Object实例的方式    </li>
+<li>采用对象自变量语法，也是就用json的数据格式<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onload=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">				<span class="comment">//创建一个Object实例的方式</span></span><br><span class="line">				<span class="keyword">var</span> obj = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">				obj.name=<span class="string">'luoxiao'</span>;</span><br><span class="line">				obj.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">					<span class="built_in">document</span>.write(<span class="keyword">this</span>.name);</span><br><span class="line">					<span class="built_in">document</span>.write(<span class="string">"&lt;br/&gt;"</span>);</span><br><span class="line">				&#125;</span><br><span class="line">				obj.sayName();</span><br><span class="line"></span><br><span class="line">				<span class="comment">//采用对象自变量语法，也是就用json的数据格式</span></span><br><span class="line">				obj = &#123;</span><br><span class="line">					name : <span class="string">'wang'</span>,</span><br><span class="line">					sayName : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">						<span class="built_in">document</span>.write(<span class="keyword">this</span>.name);</span><br><span class="line">						<span class="built_in">document</span>.write(<span class="string">"&lt;br/&gt;"</span>);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				obj.sayName();</span><br><span class="line">                                obj[<span class="string">'name'</span>];</span><br><span class="line">			&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>访问数据属性的2种方式</p>
+<ul>
+<li>使用“ . ”来访问对象属性，objectName.propertyName</li>
+<li>使用“ [ ] ”来访问对象属性，objectName[propertyName]</li>
+</ul>
+<h3 id="二、工厂方式-创建对象"><a href="#二、工厂方式-创建对象" class="headerlink" title="二、工厂方式-创建对象"></a>二、工厂方式-创建对象</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//工厂模式</span></span><br><span class="line">				 <span class="function"><span class="keyword">function</span> <span class="title">createPerson</span>(<span class="params">name , age , job</span>)</span>&#123;</span><br><span class="line">                     <span class="comment">// 原料</span></span><br><span class="line">				 	<span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">                    <span class="comment">//加工</span></span><br><span class="line">				 	o.name = name;</span><br><span class="line">				 	o.age = age;</span><br><span class="line">				 	o.job = job;</span><br><span class="line">				 	o.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">				 		<span class="built_in">document</span>.write(<span class="keyword">this</span>.name);</span><br><span class="line">				 		<span class="built_in">document</span>.write(<span class="string">"&lt;br/&gt;"</span>);</span><br><span class="line">				 	&#125;;</span><br><span class="line">                    <span class="comment">//出厂</span></span><br><span class="line">				 	<span class="keyword">return</span> o;</span><br><span class="line">				 &#125;</span><br><span class="line"></span><br><span class="line">				 <span class="keyword">var</span> person1 = createPerson(<span class="string">"luoxiao"</span>,<span class="number">24</span>,<span class="string">"ued"</span>);</span><br><span class="line">				 <span class="keyword">var</span> person2 = createPerson(<span class="string">"wang"</span>,<span class="number">24</span>,<span class="string">"bi"</span>);</span><br><span class="line">				 person1.sayName();</span><br><span class="line">				 person2.sayName();</span><br></pre></td></tr></table></figure>
+<p>但是工厂方式有一个很大的缺陷，就是每创建一个对象，都会重新创建这个类里面的所有的属性和方法，这样是非常消耗内存的，因此我们需要对工厂方式进行改造：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, sex</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.name=name;</span><br><span class="line">	<span class="keyword">this</span>.sex=sex;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Person.prototype.showName=<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	alert(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Person.prototype.showSex=<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	alert(<span class="keyword">this</span>.sex);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p=<span class="keyword">new</span> Person(<span class="string">'blue'</span>, <span class="string">'男'</span>);</span><br><span class="line"></span><br><span class="line">p.showName();</span><br><span class="line">p.showSex();</span><br></pre></td></tr></table></figure></p>
+<p>通过这种方式，属性还是写在构造函数内部，我们把方法提取出来放到原型中去，这样所有的对象都共享这一个方法，不会浪费多余的内存空间，相当于我们的每个实例都保留了一个指向这个原型的指针，因此访问的都是一个方法，当然我们也可以把属性也放到原型中去。</p>
+<h3 id="三、如何将一个面向过程的控件效果改成一个面向对象的？"><a href="#三、如何将一个面向过程的控件效果改成一个面向对象的？" class="headerlink" title="三、如何将一个面向过程的控件效果改成一个面向对象的？"></a>三、如何将一个面向过程的控件效果改成一个面向对象的？</h3><ul>
+<li>1.先把函数提出来</li>
+<li>2.把用到的变量变成全局的</li>
+<li>3.干掉window.onload让它变成构造函数，需要的参数进行传参</li>
+<li>4.全局变量变成属性(this.name=)，函数变成方法  (对象.prototype.fun=function )</li>
+<li>5.各个地方加this ， 事件上面应该用闭包(event = function(){})，保存this(_this=this)，因为作用域会改变</li>
+<li>6.使用的时候到onload里面去new一个对象</li>
+</ul>
+<p>现在我们将之前写的一个拖拽div的效果改成面向对象的：<br><strong>改造之前</strong>:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC <span class="string">"-//W3C//DTD HTML 4.01 Transitional//EN"</span></span><br><span class="line">        <span class="string">"http://www.w3.org/TR/html4/loose.dtd"</span>&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;<span class="xml"><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        #div1 &#123;</span><br><span class="line">            width:<span class="number">100</span>px;</span><br><span class="line">            height: <span class="number">100</span>px;</span><br><span class="line">            position: absolute;</span><br><span class="line">            background: red;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;<span class="regexp">/style&gt;</span></span><br><span class="line"><span class="regexp">    &lt;script&gt;</span></span><br><span class="line"><span class="regexp">        window.onload = function()&#123;</span></span><br><span class="line"><span class="regexp">            var oDiv = document.getElementById("div1");</span></span><br><span class="line"><span class="regexp">            /</span><span class="regexp">/鼠标点击开始拖拽的位置 到 拖动元素左上角的 距离</span></span><br><span class="line"><span class="regexp">            var disX = 0;</span></span><br><span class="line"><span class="regexp">            var disY = 0;</span></span><br><span class="line"><span class="regexp">            oDiv.onmousedown = function(ev)&#123;</span></span><br><span class="line"><span class="regexp">                var oEvent = ev || event;</span></span><br><span class="line"><span class="regexp">                /</span><span class="regexp">/鼠标点击开始拖拽的位置 - 距离左边的距离 = 鼠标距离拖动元素左上角的距离</span></span><br><span class="line"><span class="regexp">                disX = oEvent.clientX - oDiv.offsetLeft;</span></span><br><span class="line"><span class="regexp">                disY = oEvent.clientY - oDiv.offsetTop;</span></span><br><span class="line"><span class="regexp">                /</span><span class="regexp">/用document绑定事件就是为了防止拖动太块导致鼠标拖出div了去了</span></span><br><span class="line"><span class="regexp">                document.onmousemove = function(ev)&#123;</span></span><br><span class="line"><span class="regexp">                    var oEvent = ev || event;</span></span><br><span class="line"><span class="regexp">                    /</span><span class="regexp">/鼠标当前的位置 - 距离 = div应该的位置</span></span><br><span class="line"><span class="regexp">                    var l = oEvent.clientX - disX;</span></span><br><span class="line"><span class="regexp">                    var t = oEvent.clientY - disY;</span></span><br><span class="line"><span class="regexp">                    /</span><span class="regexp">/页面高度</span></span><br><span class="line"><span class="regexp">                    var dHeight = document.documentElement.clientHeight || document.body.clientHeight;</span></span><br><span class="line"><span class="regexp">                    /</span><span class="regexp">/页面宽度</span></span><br><span class="line"><span class="regexp">                    var dWidth = document.documentElement.clientWidth || document.body.clientWidth;</span></span><br><span class="line"><span class="regexp">                   /</span><span class="regexp">/左边和右边不能超过页面边框</span></span><br><span class="line"><span class="regexp">                    if(l&lt;0)&#123;</span></span><br><span class="line"><span class="regexp">                        l = 0;</span></span><br><span class="line"><span class="regexp">                    &#125;else if(l &gt; dWidth - oDiv.offsetWidth)&#123;</span></span><br><span class="line"><span class="regexp">                        /</span><span class="regexp">/页面宽度 - div的宽度 = 右边不能超过的位置(否则会拖出去)</span></span><br><span class="line"><span class="regexp">                        l = dWidth - oDiv.offsetWidth;</span></span><br><span class="line"><span class="regexp">                    &#125;</span></span><br><span class="line"><span class="regexp">                    if(t &lt; 0)&#123;</span></span><br><span class="line"><span class="regexp">                        t = 0;</span></span><br><span class="line"><span class="regexp">                    &#125;else if(t &gt; dHeight - oDiv.offsetHeight)&#123;</span></span><br><span class="line"><span class="regexp">                        t = dHeight - oDiv.offsetHeight;</span></span><br><span class="line"><span class="regexp">                    &#125;</span></span><br><span class="line"><span class="regexp">                    oDiv.style.left = l + "px";</span></span><br><span class="line"><span class="regexp">                    oDiv.style.top = t + "px";</span></span><br><span class="line"><span class="regexp">                &#125;</span></span><br><span class="line"><span class="regexp">                document.onmouseup = function()&#123;</span></span><br><span class="line"><span class="regexp">                    document.onmousemove = null;</span></span><br><span class="line"><span class="regexp">                    document.onmouseup = null;</span></span><br><span class="line"><span class="regexp">                &#125;</span></span><br><span class="line"><span class="regexp">                /</span><span class="regexp">/阻止浏览器默认事件</span></span><br><span class="line"><span class="regexp">                return false;</span></span><br><span class="line"><span class="regexp">            &#125;</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>script&gt;</span><br><span class="line">&lt;<span class="regexp">/head&gt;</span></span><br><span class="line"><span class="regexp">&lt;body&gt;</span></span><br><span class="line"><span class="regexp">&lt;div id="div1"&gt;&lt;/</span>div&gt;</span><br><span class="line">&lt;<span class="regexp">/body&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>html&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>改造之后：</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html PUBLIC <span class="string">"-//W3C//DTD XHTML 1.0 Transitional//EN"</span> <span class="string">"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"</span>&gt;</span><br><span class="line">&lt;html xmlns=<span class="string">"http://www.w3.org/1999/xhtml"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">#div1 &#123;width:100px; height:100px; background:red; position:absolute;&#125;</span><br><span class="line">#div2 &#123;width:100px; height:100px; background:yellow; position:absolute;&#125;</span><br><span class="line">&lt;<span class="regexp">/style&gt;</span></span><br><span class="line"><span class="regexp">&lt;meta http-equiv="Content-Type" content="text/</span>html; charset=utf<span class="number">-8</span><span class="string">" /&gt;</span></span><br><span class="line"><span class="string">&lt;title&gt;无标题文档&lt;/title&gt;</span></span><br><span class="line"><span class="string">&lt;script&gt;</span></span><br><span class="line"><span class="string">window.onload=function ()</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">	new Drag('div1');</span></span><br><span class="line"><span class="string">	new Drag('div2');</span></span><br><span class="line"><span class="string">&#125;;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">function Drag(id)</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">	var _this=this;</span></span><br><span class="line"><span class="string">	</span></span><br><span class="line"><span class="string">	this.disX=0;</span></span><br><span class="line"><span class="string">	this.disY=0;</span></span><br><span class="line"><span class="string">	this.oDiv=document.getElementById(id);</span></span><br><span class="line"><span class="string">	</span></span><br><span class="line"><span class="string">	this.oDiv.onmousedown=function ()</span></span><br><span class="line"><span class="string">	&#123;</span></span><br><span class="line"><span class="string">		_this.fnDown();</span></span><br><span class="line"><span class="string">	&#125;;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Drag.prototype.fnDown=function (ev)</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">	var _this=this;</span></span><br><span class="line"><span class="string">	var oEvent=ev||event;</span></span><br><span class="line"><span class="string">	this.disX=oEvent.clientX-this.oDiv.offsetLeft;</span></span><br><span class="line"><span class="string">	this.disY=oEvent.clientY-this.oDiv.offsetTop;</span></span><br><span class="line"><span class="string">	</span></span><br><span class="line"><span class="string">	document.onmousemove=function ()</span></span><br><span class="line"><span class="string">	&#123;</span></span><br><span class="line"><span class="string">		_this.fnMove();</span></span><br><span class="line"><span class="string">	&#125;;</span></span><br><span class="line"><span class="string">	</span></span><br><span class="line"><span class="string">	document.onmouseup=function ()</span></span><br><span class="line"><span class="string">	&#123;</span></span><br><span class="line"><span class="string">		_this.fnUp();</span></span><br><span class="line"><span class="string">	&#125;;</span></span><br><span class="line"><span class="string">&#125;;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Drag.prototype.fnMove=function (ev)</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">	var oEvent=ev||event;</span></span><br><span class="line"><span class="string">	</span></span><br><span class="line"><span class="string">	this.oDiv.style.left=oEvent.clientX-this.disX+'px';</span></span><br><span class="line"><span class="string">	this.oDiv.style.top=oEvent.clientY-this.disY+'px';</span></span><br><span class="line"><span class="string">&#125;;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Drag.prototype.fnUp=function ()</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">	document.onmousemove=null;</span></span><br><span class="line"><span class="string">	document.onmouseup=null;</span></span><br><span class="line"><span class="string">&#125;;</span></span><br><span class="line"><span class="string">&lt;/script&gt;</span></span><br><span class="line"><span class="string">&lt;/head&gt;</span></span><br><span class="line"><span class="string">&lt;body&gt;</span></span><br><span class="line"><span class="string">&lt;div id="</span>div1<span class="string">"&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">&lt;div id="</span>div2<span class="string">"&gt;</span></span><br><span class="line"><span class="string">asdf</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">&lt;/body&gt;</span></span><br><span class="line"><span class="string">&lt;/html&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="四、对象继承"><a href="#四、对象继承" class="headerlink" title="四、对象继承"></a>四、对象继承</h3><p>这里我们有一个Person的类：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, sex</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.name=name;</span><br><span class="line">	<span class="keyword">this</span>.sex=sex;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Person.prototype.showName=<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	alert(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Person.prototype.showSex=<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	alert(<span class="keyword">this</span>.sex);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>现在我们如何去继承它？我们当然不会把父类已经定义的属性全部再重写一遍，这里我们用到了call这个东西，call这个函数怎么用呢，其实它的作用就是改变函数在执行时的作用域，也就是改变函数执行过程中的this。那么我们这么去实现：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Worker</span>(<span class="params">name, sex, job</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//this-&gt;new出来的Worker对象</span></span><br><span class="line">	<span class="comment">//构造函数伪装		调用父级的构造函数——为了继承属性</span></span><br><span class="line">	Person.call(<span class="keyword">this</span>, name, sex);</span><br><span class="line">	<span class="keyword">this</span>.job=job;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//原型链		通过原型来继承父级的方法</span></span><br><span class="line">Worker.prototype=Person.prototype;</span><br><span class="line">Worker.prototype.showJob=<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    alert(<span class="keyword">this</span>.job);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> oP=<span class="keyword">new</span> Person(<span class="string">'blue'</span>, <span class="string">'男'</span>);</span><br><span class="line"><span class="keyword">var</span> oW=<span class="keyword">new</span> Worker(<span class="string">'blue'</span>, <span class="string">'男'</span>, <span class="string">'打杂的'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这里我们通过Person.call去执行Person的构造函数，将this传给Person，改变Person的构造函数内部的this的作用域，那么Person的构造函数里面的this就会是Worker的实例。这样Worker就拥有了Person的属性，这种使用call的方式也叫做构造函数伪装。那么属性有了，方法该如何去继承呢?这里我们是直接将Person的原型赋值给Worker的原型，这样的确可以实现拷贝的功能，但是我们之前说过，这样传递的只是一个地址的引用，如果通过这种方式赋值的话，当Worker对象新加了一个showJob的方法的时候，父类Person对象也会同时拥有该方法。因此这样是不可行的，子类是不应该能改变父类的方法的。因此下面我们就会将其改成一种拷贝继承的方式：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Worker</span>(<span class="params">name, sex, job</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//this-&gt;new出来的Worker对象</span></span><br><span class="line">	<span class="comment">//构造函数伪装		调用父级的构造函数——为了继承属性</span></span><br><span class="line">	Person.call(<span class="keyword">this</span>, name, sex);</span><br><span class="line">	<span class="keyword">this</span>.job=job;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//原型链		通过原型来继承父级的方法</span></span><br><span class="line"><span class="comment">//Worker.prototype=Person.prototype;</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> Person.prototype)</span><br><span class="line">&#123;</span><br><span class="line">	Worker.prototype[i]=Person.prototype[i];</span><br><span class="line">&#125;</span><br><span class="line">Worker.prototype.showJob=<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    alert(<span class="keyword">this</span>.job);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> oP=<span class="keyword">new</span> Person(<span class="string">'blue'</span>, <span class="string">'男'</span>);</span><br><span class="line"><span class="keyword">var</span> oW=<span class="keyword">new</span> Worker(<span class="string">'blue'</span>, <span class="string">'男'</span>, <span class="string">'打杂的'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这里我们直接将父类的原型里面的方法全部遍历出来，然后赋值给子类的原型。这样他们会各自保有自己的方法，就算改变了子类的原型也不会对父类照成影响。当然，这样的拷贝方式只是浅拷贝。</p>
+<h3 id="五、拷贝继承的实例"><a href="#五、拷贝继承的实例" class="headerlink" title="五、拷贝继承的实例"></a>五、拷贝继承的实例</h3><p>对于之前的拖动div这个实例，我们将其进行一下改动，给它加一个现在，使它拖拽的时候不能拖出去。但是我们不想去改变之前的已有的效果，那么我们将会采用拷贝继承的方式重新生成一个实例。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">LimitDrag</span>(<span class="params">id</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Drag.call(<span class="keyword">this</span>, id);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//LimitDrag.prototype=Drag.prototype;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> Drag.prototype)</span><br><span class="line">&#123;</span><br><span class="line">	LimitDrag.prototype[i]=Drag.prototype[i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LimitDrag.prototype.fnMove=<span class="function"><span class="keyword">function</span> (<span class="params">ev</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> oEvent=ev||event;</span><br><span class="line">	<span class="keyword">var</span> l=oEvent.clientX-<span class="keyword">this</span>.disX;</span><br><span class="line">	<span class="keyword">var</span> t=oEvent.clientY-<span class="keyword">this</span>.disY;</span><br><span class="line">	<span class="keyword">if</span>(l&lt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		l=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(l&gt;<span class="built_in">document</span>.documentElement.clientWidth-<span class="keyword">this</span>.oDiv.offsetWidth)</span><br><span class="line">	&#123;</span><br><span class="line">		l=<span class="built_in">document</span>.documentElement.clientWidth-<span class="keyword">this</span>.oDiv.offsetWidth;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(t&lt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		t=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(t&gt;<span class="built_in">document</span>.documentElement.clientHeight-<span class="keyword">this</span>.oDiv.offsetHeight)</span><br><span class="line">	&#123;</span><br><span class="line">		t=<span class="built_in">document</span>.documentElement.clientHeight-<span class="keyword">this</span>.oDiv.offsetHeight;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">this</span>.oDiv.style.left=l+<span class="string">'px'</span>;</span><br><span class="line">	<span class="keyword">this</span>.oDiv.style.top=t+<span class="string">'px'</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>这里我们通过拷贝继承在不改变父类的前提下，给子类新增了一个方法。</p>
+<h3 id="六、命名空间"><a href="#六、命名空间" class="headerlink" title="六、命名空间"></a>六、命名空间</h3><p>一般我们在写这种面向对象的控件的时候，会用到命名空间，因为这样可以避免类名的重复以及覆盖，特别是当一个项目做大起来了之后，就特别需要避免这种问题：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html PUBLIC <span class="string">"-//W3C//DTD XHTML 1.0 Transitional//EN"</span> <span class="string">"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"</span>&gt;</span><br><span class="line">&lt;html xmlns=<span class="string">"http://www.w3.org/1999/xhtml"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">"Content-Type"</span> content=<span class="string">"text/html; charset=utf-8"</span> /&gt;</span><br><span class="line">&lt;title&gt;无标题文档&lt;<span class="regexp">/title&gt;</span></span><br><span class="line"><span class="regexp">&lt;script&gt;</span></span><br><span class="line"><span class="regexp">var miaov=&#123;&#125;;</span></span><br><span class="line"><span class="regexp">miaov.common=&#123;</span></span><br><span class="line"><span class="regexp">	getByClass: function ()</span></span><br><span class="line"><span class="regexp">	&#123;</span></span><br><span class="line"><span class="regexp">	&#125;,</span></span><br><span class="line"><span class="regexp">	myAddEvent: function ()</span></span><br><span class="line"><span class="regexp">	&#123;</span></span><br><span class="line"><span class="regexp">	&#125;</span></span><br><span class="line"><span class="regexp">&#125;;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">miaov.fx=&#123;</span></span><br><span class="line"><span class="regexp">	startMove: function ()</span></span><br><span class="line"><span class="regexp">	&#123;</span></span><br><span class="line"><span class="regexp">	&#125;,</span></span><br><span class="line"><span class="regexp">	drag: function ()</span></span><br><span class="line"><span class="regexp">	&#123;</span></span><br><span class="line"><span class="regexp">	&#125;</span></span><br><span class="line"><span class="regexp">&#125;;</span></span><br><span class="line"><span class="regexp">miaov.common.getByClass()</span></span><br><span class="line"><span class="regexp">&lt;/</span>script&gt;</span><br><span class="line">&lt;<span class="regexp">/head&gt;</span></span><br><span class="line"><span class="regexp">&lt;body&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>body&gt;</span><br><span class="line">&lt;<span class="regexp">/html&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这次就说这么多了，之后会再对每一个知识概念进行具体的梳理，js的面向对象的内容还是挺多的，慢慢领悟！</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2015/03/26/自定义下拉框/" data-toggle="tooltip" data-placement="top" title="自定义下拉框">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2015/03/16/json格式转换及兼容性处理/" data-toggle="tooltip" data-placement="top" title="json格式转换及兼容性处理">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Javascript" title="Javascript">Javascript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://huangxuan.me/" target="_blank">黄玄Blog</a></li>
+                    
+                        <li><a href="https://github.com/Huxpro/huxpro.github.io" target="_blank">hux theme</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "http://flyknows.com/2015/03/16/js面向对象的一些总结/";
+    var disqus_url = "http://flyknows.com/2015/03/16/js面向对象的一些总结/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/luo-xiao-97">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2680309633">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/luoxiaowang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/肖-罗-46b9b4112">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; FlyKnows 2019 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://flyknows.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://flyknows.com/image/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
