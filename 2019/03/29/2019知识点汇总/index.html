@@ -13,11 +13,11 @@
 
     <title>
         
-          2018前端技术清单 - FlyKnows
+          2019前端知识点汇总 - FlyKnows
         
     </title>
 
-    <link rel="canonical" href="http://flyknows.com/2018/11/15/2018前端技术清单/">
+    <link rel="canonical" href="http://flyknows.com/2019/03/29/2019知识点汇总/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -207,14 +207,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#乱七八糟" title="乱七八糟">乱七八糟</a>
+                          <a class="tag" href="/tags/#前端技术" title="前端技术">前端技术</a>
                         
                     </div>
-                    <h1>2018前端技术清单</h1>
+                    <h1>2019前端知识点汇总</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by luoxiao on
-                        2018-11-15
+                        2019-03-29
                     </span>
                 </div>
             </div>
@@ -233,8 +233,21 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><h4 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h4><ul>
-<li><a href="https://juejin.im/book/5b936540f265da0a9624b04b/section/5b936540f265da0aec223b5d" target="_blank" rel="noopener">前端性能优化原理与实践</a>  <em>(掘金小册)</em></li>
+                <h3 id="React技术点"><a href="#React技术点" class="headerlink" title="React技术点"></a>React技术点</h3><h4 id="什么情况下setState是异步的？"><a href="#什么情况下setState是异步的？" class="headerlink" title="什么情况下setState是异步的？"></a>什么情况下setState是异步的？</h4><p>react事件处理函数中，以及生命周期函数中。避免重复re-render。但是在自己去addEventListener()的事件中，以及setTimeout这样的异步操作中，都是同步的。<br>原理在于，React在setState的实现中，主要使用isBatchingUpdates判断是直接更新 this.state 还是放到队列中（放到dirtyComponent中）回头再说，而 isBatchingUpdates 默认是 false，也就表示 setState 会同步更新 this.state，但是，有一个函数 batchedUpdates，这个函数会把 isBatchingUpdates 修改为true，而当 React 在调用事件处理函数之前就会调用这个 batchedUpdates，造成的后果就是由 React 控制的事件处理过程 setState 不会同步更新 this.state。</p>
+<h4 id="如何同步或者避免批量更新？"><a href="#如何同步或者避免批量更新？" class="headerlink" title="如何同步或者避免批量更新？"></a>如何同步或者避免批量更新？</h4><p>放到setTimeout中或者在setState的回调中去取，或者setState的时候不要传递对象，而是传递一个生成函数。setTimeout的回调函数不受react所控制，因此不会执行batchupdate。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">incrementCount() &#123;</span><br><span class="line">  <span class="keyword">this</span>.setState(<span class="function">(<span class="params">state</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// Important: read `state` instead of `this.state` when updating.</span></span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="attr">count</span>: state.count + <span class="number">1</span>&#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleSomething() &#123;</span><br><span class="line">  <span class="comment">// Let's say `this.state.count` starts at 0.</span></span><br><span class="line">  <span class="keyword">this</span>.incrementCount();</span><br><span class="line">  <span class="keyword">this</span>.incrementCount();</span><br><span class="line">  <span class="keyword">this</span>.incrementCount();</span><br><span class="line">  <span class="comment">// If you read `this.state.count` now, it would still be 0.</span></span><br><span class="line">  <span class="comment">// But when React re-renders the component, it will be 3.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="React中的Transaction事务？"><a href="#React中的Transaction事务？" class="headerlink" title="React中的Transaction事务？"></a>React中的Transaction事务？</h4><p>简单地说，一个所谓的 Transaction 就是将需要执行的 method 使用 wrapper 封装起来，再通过 Transaction 提供的 perform 方法执行。而在 perform 之前，先执行所有 wrapper 中的 initialize 方法；perform 完成之后（即 method 执行后）再执行所有的 close 方法。一组 initialize 及 close 方法称为一个 wrapper，从上面的示例图中可以看出 Transaction 支持多个 wrapper 叠加。<br>在声明周期中调用setState的时候，其实就处于一个 batchedUpdates 执行的 transaction 中它会先执行batchedUpdates方法。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/20328570" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/20328570</a></p>
+<h4 id="虚拟dom及diff"><a href="#虚拟dom及diff" class="headerlink" title="虚拟dom及diff"></a>虚拟dom及diff</h4><p><a href="https://www.cnblogs.com/zhuzhenwei918/p/7271305.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhuzhenwei918/p/7271305.html</a></p>
+<h4 id="React-中的事件处理逻辑"><a href="#React-中的事件处理逻辑" class="headerlink" title="React 中的事件处理逻辑"></a>React 中的事件处理逻辑</h4><p>为了解决跨浏览器兼容性问题，React 会将浏览器原生事件（Browser Native Event）封装为合成事件（SyntheticEvent）传入设置的事件处理器中。这里的合成事件提供了与原生事件相同的接口，不过它们屏蔽了底层浏览器的细节差异，保证了行为的一致性。另外有意思的是，React 并没有直接将事件附着到子元素上，而是以单一事件监听器的方式将所有的事件发送到顶层进行处理。这样 React 在更新 DOM 的时候就不需要考虑如何去处理附着在 DOM 上的事件监听器，最终达到优化性能的目的。</p>
+<h4 id="React与Vue区别？"><a href="#React与Vue区别？" class="headerlink" title="React与Vue区别？"></a>React与Vue区别？</h4><ul>
+<li><strong>监听数据变化的实现原理不同</strong>：Vue 通过 getter/setter 以及一些函数的劫持，能精确知道数据变化，不需要特别的优化就能达到很好的性能。React 默认是通过比较引用的方式进行的，如果不优化（PureComponent/shouldComponentUpdate）可能导致大量不必要的VDOM的重新渲染。</li>
+<li><strong>数据流的不同</strong>：Vue中默认是支持双向绑定的，组件与DOM之间可以通过 v-model 双向绑定。，React一直提倡的是单向数据流，他称之为 onChange/setState()模式。</li>
+<li><strong>HoC 和 mixins</strong>：Vue 一直是使用 mixin 来实现的，Vue中组件是一个被包装的函数，比如我们定义的模板怎么被编译的？比如声明的props怎么接收到的？这些都是vue创建组件实例的时候隐式干的事。由于vue默默帮我们做了这么多事，所以我们自己如果直接把组件的声明包装一下，返回一个高阶组件，那么这个被包装的组件就无法正常工作了。react觉得mixins代码侵入性太强。</li>
+<li><strong>组件通信的区别</strong>：Vue中子组件向父组件传递消息有两种方式：事件和回调函数，而且Vue更倾向于使用事件，子组件通过 事件 向父组件发送消息， props 只向子组件传递数据。但是在 React 中我们都是使用回调函数的，这可能是他们二者最大的区别。</li>
+<li><strong>模板渲染方式的不同</strong>：Vue是通过一种拓展的HTML语法进行渲染，Vue是在和组件JS代码分离的单独的模板中，通过指令来实现的。容易让html看起来很乱。 Vue中，由于模板中使用的数据都必须挂在 this 上进行一次中转，所以我们import 一个组件完了之后，还需要在 components 中再声明下。React 是通过JSX渲染模板，更加纯粹更加原生，通过js去控制各种逻辑，import之后可以在render中直接使用。</li>
+<li>Redux 使用的是不可变数据，而Vuex的数据是可变的。Redux每次都是用新的state替换旧的state，而Vuex是直接修改。在 Redux 中，我们每一个组件都需要显示的用 connect 把需要的 props 和 dispatch 连接起来。在 Vuex 中，$store 被直接注入到了组件实例中，因此可以比较灵活的使用。</li>
+<li>React更偏向于构建稳定大型的应用，非常的科班化。相比之下，Vue更偏向于简单迅速的解决问题，更灵活，不那么严格遵循条条框框。</li>
 </ul>
 
 
@@ -244,13 +257,9 @@
 
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2019/03/29/2019知识点汇总/" data-toggle="tooltip" data-placement="top" title="2019前端知识点汇总">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2018/11/05/定时任务/" data-toggle="tooltip" data-placement="top" title="定时任务">Next Post &rarr;</a>
+                            <a href="/2018/11/15/2018前端技术清单/" data-toggle="tooltip" data-placement="top" title="2018前端技术清单">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -283,7 +292,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#乱七八糟" title="乱七八糟">乱七八糟</a>
+                          <a class="tag" href="/tags/#前端技术" title="前端技术">前端技术</a>
                         
                     </div>
                 </section>
@@ -315,8 +324,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "hexo-theme-huxblog";
-    var disqus_identifier = "http://flyknows.com/2018/11/15/2018前端技术清单/";
-    var disqus_url = "http://flyknows.com/2018/11/15/2018前端技术清单/";
+    var disqus_identifier = "http://flyknows.com/2019/03/29/2019知识点汇总/";
+    var disqus_url = "http://flyknows.com/2019/03/29/2019知识点汇总/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
