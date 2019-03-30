@@ -13,11 +13,11 @@
 
     <title>
         
-          2019前端知识点汇总 - FlyKnows
+          React知识点汇总 - FlyKnows
         
     </title>
 
-    <link rel="canonical" href="http://flyknows.com/2019/03/29/2019前端知识点汇总/">
+    <link rel="canonical" href="http://flyknows.com/2019/03/29/React知识点汇总/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -207,10 +207,10 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#前端技术" title="前端技术">前端技术</a>
+                          <a class="tag" href="/tags/#React" title="React">React</a>
                         
                     </div>
-                    <h1>2019前端知识点汇总</h1>
+                    <h1>React知识点汇总</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by luoxiao on
@@ -249,7 +249,26 @@
 <li>Redux 使用的是不可变数据，而Vuex的数据是可变的。Redux每次都是用新的state替换旧的state，而Vuex是直接修改。在 Redux 中，我们每一个组件都需要显示的用 connect 把需要的 props 和 dispatch 连接起来。在 Vuex 中，$store 被直接注入到了组件实例中，因此可以比较灵活的使用。</li>
 <li>React更偏向于构建稳定大型的应用，非常的科班化。相比之下，Vue更偏向于简单迅速的解决问题，更灵活，不那么严格遵循条条框框。</li>
 </ul>
+<h4 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h4><p>JSX 只是为 React.createElement(component, props, …children) 方法提供的语法糖</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;MyButton color=<span class="string">"blue"</span> shadowSize=&#123;<span class="number">2</span>&#125;&gt;</span><br><span class="line">  Click Me</span><br><span class="line">&lt;<span class="regexp">/MyButton&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">React.createElement(</span></span><br><span class="line"><span class="regexp">  MyButton,</span></span><br><span class="line"><span class="regexp">  &#123;color: 'blue', shadowSize: 2&#125;,</span></span><br><span class="line"><span class="regexp">  'Click Me'</span></span><br><span class="line"><span class="regexp">)</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://react.docschina.org/docs/jsx-in-depth.html" target="_blank" rel="noopener">https://react.docschina.org/docs/jsx-in-depth.html</a></p>
+<h4 id="HOC"><a href="#HOC" class="headerlink" title="HOC"></a>HOC</h4><p>高阶组件就是一个函数，且该函数接受一个组件作为参数，并返回一个新的组件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> ExampleHoc <span class="keyword">from</span> <span class="string">'./example-hoc'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UseContent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'props:'</span>,<span class="keyword">this</span>.props);</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">       &#123;<span class="keyword">this</span>.props.title&#125; - &#123;<span class="keyword">this</span>.props.name&#125;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">export default ExampleHoc(UseContent)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ExampleHoc = <span class="function"><span class="params">WrappedComponent</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props)</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">         title: <span class="string">'hoc-component'</span>,</span><br><span class="line">         name: <span class="string">'arcsin1'</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">       <span class="keyword">const</span> newProps = &#123;</span><br><span class="line">        ...this.state,</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> &lt;WrappedComponent &#123;...this.props&#125; &#123;...this.newProps&#125; /&gt;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">export default ExampleHoc</span><br></pre></td></tr></table></figure>
+<p>高阶组件既不会修改输入组件，也不会使用继承拷贝它的行为。而是，高阶组件 组合（composes） 原始组件，通过用一个容器组件 包裹着（wrapping） 原始组件。高阶组件就是一个没有副作用的纯函数。<br>高阶组件可以传递所有的props属性给包裹的组件，但是不能传递refs引用。因为并不是像key一样，refs是一个伪属性，React对它进行了特殊处理。如果你向一个由高阶组件创建的组件的元素添加ref应用，那么ref指向的是最外层容器组件实例的，而不是被包裹的组件。</p>
 <h4 id="react-router原理？"><a href="#react-router原理？" class="headerlink" title="react-router原理？"></a>react-router原理？</h4><p><a href="https://github.com/fi3ework/blog/issues/21" target="_blank" rel="noopener">https://github.com/fi3ework/blog/issues/21</a></p>
+<h4 id="如何实现一个React？"><a href="#如何实现一个React？" class="headerlink" title="如何实现一个React？"></a>如何实现一个React？</h4><p><a href="https://github.com/hujiulong/blog/issues/4" target="_blank" rel="noopener">https://github.com/hujiulong/blog/issues/4</a></p>
+<h4 id="数据管理方案？"><a href="#数据管理方案？" class="headerlink" title="数据管理方案？"></a>数据管理方案？</h4><ul>
+<li><a href="https://segmentfault.com/a/1190000007248878" target="_blank" rel="noopener">https://segmentfault.com/a/1190000007248878</a></li>
+<li><a href="https://km.sankuai.com/page/23026896" target="_blank" rel="noopener">https://km.sankuai.com/page/23026896</a></li>
+</ul>
+<h4 id="理解中间件"><a href="#理解中间件" class="headerlink" title="理解中间件"></a>理解中间件</h4><ul>
+<li><a href="https://juejin.im/post/59dc7e43f265da4332268906" target="_blank" rel="noopener">https://juejin.im/post/59dc7e43f265da4332268906</a></li>
+<li><a href="https://juejin.im/post/5b237569f265da59bf79f3e9" target="_blank" rel="noopener">https://juejin.im/post/5b237569f265da59bf79f3e9</a></li>
+</ul>
+<h4 id="Connect的实现"><a href="#Connect的实现" class="headerlink" title="Connect的实现"></a>Connect的实现</h4><p><a href="https://blog.csdn.net/c_kite/article/details/79018469" target="_blank" rel="noopener">https://blog.csdn.net/c_kite/article/details/79018469</a></p>
+<h4 id="如何实现一个-Virtual-DOM-算法"><a href="#如何实现一个-Virtual-DOM-算法" class="headerlink" title="如何实现一个 Virtual DOM 算法"></a>如何实现一个 Virtual DOM 算法</h4><p><a href="https://github.com/livoras/blog/issues/13" target="_blank" rel="noopener">https://github.com/livoras/blog/issues/13</a></p>
+<h4 id="React同构"><a href="#React同构" class="headerlink" title="React同构"></a>React同构</h4><p><a href="https://juejin.im/post/5bc7ea48e51d450e46289eab" target="_blank" rel="noopener">https://juejin.im/post/5bc7ea48e51d450e46289eab</a></p>
 
 
                 <hr>
@@ -293,7 +312,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#前端技术" title="前端技术">前端技术</a>
+                          <a class="tag" href="/tags/#React" title="React">React</a>
                         
                     </div>
                 </section>
@@ -325,8 +344,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "hexo-theme-huxblog";
-    var disqus_identifier = "http://flyknows.com/2019/03/29/2019前端知识点汇总/";
-    var disqus_url = "http://flyknows.com/2019/03/29/2019前端知识点汇总/";
+    var disqus_identifier = "http://flyknows.com/2019/03/29/React知识点汇总/";
+    var disqus_url = "http://flyknows.com/2019/03/29/React知识点汇总/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
