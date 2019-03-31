@@ -226,6 +226,27 @@
 
 <div class="post-preview">
 
+    <a href="/2014/09/16/oracle递归/">
+        <h2 class="post-title">
+            oracle递归
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文主要介绍如何使用sql去进行递归查询。使用java去写一个递归遍历也不是太难，但是oracle sql里面却有更加简单的方法去实现。例如：通过组别id递归查询组别下的所有员工123456select * from (select * 	from t_common_group t	start with t.id = '001'	CONNECT BY PRIOR t.id=t.parent_......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2014-09-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/2014/09/10/javascript高级程序设计-Array迭代及归并/">
         <h2 class="post-title">
             javascript高级程序设计-Array迭代及归并
@@ -306,11 +327,7 @@ GitHub教程这里默认大家安装好了这些环境，首先我们在任意�
                     <div class="tags">
                         
                             
-                            <a href="/tags/#前端技术" title="前端技术" rel="8">前端技术</a>
-                            
-                        
-                            
-                            <a href="/tags/#CSS" title="CSS" rel="5">CSS</a>
+                            <a href="/tags/#CSS" title="CSS" rel="6">CSS</a>
                             
                         
                             
@@ -318,11 +335,15 @@ GitHub教程这里默认大家安装好了这些环境，首先我们在任意�
                             
                         
                             
-                            <a href="/tags/#Webpack" title="Webpack" rel="2">Webpack</a>
+                            <a href="/tags/#前端技术" title="前端技术" rel="8">前端技术</a>
                             
                         
                             
                             <a href="/tags/#Javascript" title="Javascript" rel="8">Javascript</a>
+                            
+                        
+                            
+                            <a href="/tags/#Webpack" title="Webpack" rel="2">Webpack</a>
                             
                         
                             
