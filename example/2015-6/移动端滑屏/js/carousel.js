@@ -78,7 +78,7 @@ function fnTab(){
         iX=-iNow*iW;
         oList.style.transition="0.5s";
         oList.style.WebkitTransform=oList.style.transform="translateX("+iX+"px)";
-        for(var i=0;i<anav.length;i++) {="" removeclass(anav[i],"active");="" }="" addclass(anav[inow],"active");="" function="" fnstart(ev)="" olist.style.transition="none" ;="" 最近一次触发该事件的手指信息,阻止默认事件="" ev="ev.changedTouches[0];" istarttouchx="ev.pageX;" istartx="iX;" clearinterval(otimer);="" fnmove(ev)="" 移动后的位置-开始的位置="距离" var="" idis="ev.pageX-iStartTouchX;" 距离+当前的translate值="move后的translate" ix="iStartX+iDis;" olist.style.webkittransform="oList.style.transform="translateX("+iX+"px)";" fnend()="" 当前的距离="" 当前设备的宽度="当前的位置四舍五入" inow="iX/iW;" if(inow<0)="" if(inow="">aNav.length-1)
+        for(var i=0;i<anav.length;i++) { removeclass(anav[i],"active"); } addclass(anav[inow],"active"); function fnstart(ev) olist.style.transition="none" ; 最近一次触发该事件的手指信息,阻止默认事件 ev="ev.changedTouches[0];" istarttouchx="ev.pageX;" istartx="iX;" clearinterval(otimer); fnmove(ev) 移动后的位置-开始的位置="距离" var idis="ev.pageX-iStartTouchX;" 距离+当前的translate值="move后的translate" ix="iStartX+iDis;" olist.style.webkittransform="oList.style.transform="translateX("+iX+"px)";" fnend() 当前的距离 当前设备的宽度="当前的位置四舍五入" inow="iX/iW;" if(inow<0) if(inow>aNav.length-1)
         {
             iNow=aNav.length-1;
         }

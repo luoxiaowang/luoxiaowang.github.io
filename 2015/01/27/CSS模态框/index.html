@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="FlyKnows | js | css">
-    <meta name="keyword" content="">
+    <meta name="keyword" content>
     <link rel="shortcut icon" href="/image/favicon.ico">
 
     <title>
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -237,7 +237,7 @@
 <p>这里我们用绝对布局，top和left都设置为0，同时宽度和高度设置为100%，使得整个页面被遮挡住，如何才能透明，这里关键就是要使用css的滤镜，在标准浏览器下使用：opacity: 0.5;  使得透明度变成50%，但是在IE下必须使用 filter: alpha(opacity=50);</p>
 <p>之后去设置对话框，需要对话框的边框达到透明的效果，我们需要在对话框上在套一个父级的div，让它成为一个透明元素，实现方式和前面类似：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.fatherAlert</span>&#123;</span><br><span class="line">    	<span class="attribute">width</span>: <span class="number">420px</span>;</span><br><span class="line">        <span class="attribute">height</span>: <span class="number">220px</span>;</span><br><span class="line">        <span class="attribute">background</span>: <span class="number">#8080C0</span>;</span><br><span class="line">        <span class="attribute">position</span>: absolute;</span><br><span class="line">        <span class="attribute">opacity</span>: <span class="number">0.5</span>;</span><br><span class="line">        <span class="attribute">filter</span>: <span class="built_in">alpha</span>(opacity=50);</span><br><span class="line">        <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">        <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">        <span class="attribute">margin-top</span>: -<span class="number">112px</span>;</span><br><span class="line">        <span class="attribute">margin-left</span>: -<span class="number">212px</span>;</span><br><span class="line">        <span class="attribute">display</span>: none;</span><br><span class="line">        <span class="attribute">border-radius</span>: <span class="number">5px</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 <p>之后再设置对话框：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.alert</span> &#123;</span><br><span class="line">        <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">        <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">        <span class="attribute">background</span>: <span class="number">#fff</span>;</span><br><span class="line">        <span class="attribute">position</span>: absolute;</span><br><span class="line">        <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">        <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">        <span class="attribute">margin-top</span>: -<span class="number">102px</span>;</span><br><span class="line">        <span class="attribute">margin-left</span>: -<span class="number">202px</span>;</span><br><span class="line">        <span class="attribute">display</span>: none;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>父级是透明元素，且宽度会多20px,则需要设置marin有10px的差距。如图所示：<br><img src="/image/2015-1/5.jpg" alt="" title="Optional title"><br>这样一个基本的样式就完成了，这里所有的模态元素的display都为none，之后靠js事件去控制模态的展示就可以了。<br><a href="/example/2015-1/CSS模态框/main.html">CSS模态框</a></p>
+<p>父级是透明元素，且宽度会多20px,则需要设置marin有10px的差距。如图所示：<br><img src="/image/2015-1/5.jpg" alt title="Optional title"><br>这样一个基本的样式就完成了，这里所有的模态元素的display都为none，之后靠js事件去控制模态的展示就可以了。<br><a href="/example/2015-1/CSS模态框/main.html">CSS模态框</a></p>
 
 
                 <hr>
@@ -424,7 +424,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; FlyKnows 2019 
+                    Copyright &copy; FlyKnows 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

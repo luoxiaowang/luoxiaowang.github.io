@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="FlyKnows | js | css">
-    <meta name="keyword" content="">
+    <meta name="keyword" content>
     <link rel="shortcut icon" href="/image/favicon.ico">
 
     <title>
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -235,7 +235,7 @@
 
                 <p>介绍一下使用move.js过程中的一些问题。<br><a id="more"></a></p>
 <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>今天使用了一下move.js这个库，原本是想方便一点，不想写js的运动。但是在使用的过程中遇到了一些坑，并且都是官方文档里面都没有写出来的，用的非常的揪心。</p>
-<h3 id="关于引入move-js的问题"><a href="#关于引入move-js的问题" class="headerlink" title="关于引入move.js的问题"></a>关于引入move.js的问题</h3><p>这里需要注意，move.js不能够在head里面去引入，否则会报错找不到move函数，如下：<br><img src="/image/2015-3/1.jpg" alt="" title="Optional title"><br>就算是在window.onload事件里面去使用move函数，也还是会报错，最好是在使用move函数的那块上面再去引入就不会有问题了。</p>
+<h3 id="关于引入move-js的问题"><a href="#关于引入move-js的问题" class="headerlink" title="关于引入move.js的问题"></a>关于引入move.js的问题</h3><p>这里需要注意，move.js不能够在head里面去引入，否则会报错找不到move函数，如下：<br><img src="/image/2015-3/1.jpg" alt title="Optional title"><br>就算是在window.onload事件里面去使用move函数，也还是会报错，最好是在使用move函数的那块上面再去引入就不会有问题了。</p>
 <h3 id="关于move-js中的set方法"><a href="#关于move-js中的set方法" class="headerlink" title="关于move.js中的set方法"></a>关于move.js中的set方法</h3><p>move.js官方文档里面是这么使用set方法的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">move(<span class="string">'#example-1 .box'</span>)</span><br><span class="line">  .set(<span class="string">'margin-left'</span>, <span class="number">200</span>)</span><br><span class="line">  .end();</span><br></pre></td></tr></table></figure></p>
 <p>按照同样的方法去使用，却怎么都没效果，然后将set换成了add之后，就可以运行，但是我要的并不是add的效果，因此去看了下move.js里面是怎么写的，下面是分别是set和add方法的实现：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Move.prototype.set = <span class="function"><span class="keyword">function</span>(<span class="params">prop, val</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.transition(prop);</span><br><span class="line">  <span class="keyword">this</span>._props[prop] = val;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Move.prototype.add = <span class="function"><span class="keyword">function</span>(<span class="params">prop, val</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!style) <span class="keyword">return</span>;</span><br><span class="line">  <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.on(<span class="string">'start'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> curr = <span class="built_in">parseInt</span>(self.current(prop), <span class="number">10</span>);</span><br><span class="line">    self.set(prop, curr + val + <span class="string">'px'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
@@ -428,7 +428,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; FlyKnows 2019 
+                    Copyright &copy; FlyKnows 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

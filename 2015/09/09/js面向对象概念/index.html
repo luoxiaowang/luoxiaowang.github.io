@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="FlyKnows | js | css">
-    <meta name="keyword" content="">
+    <meta name="keyword" content>
     <link rel="shortcut icon" href="/image/favicon.ico">
 
     <title>
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -277,7 +277,7 @@
 <li>delete可以删除实例属性，让我们访问原型的属性</li>
 <li>原型对象所做的任何修改都能立即从实例上反映出来，即使是先创建了实例后修改原型也如此。因为实例与原型之间的连接只是一个指针。</li>
 <li>实例中的指针只指向原型，而不指向构造函数，如果先创建实例，之后一旦重写了prototype切断了联系，引用也不会改变，还是引用的最初的原型</li>
-<li>原型对象的缺点是，在包含引用类型值（如数组）的属性来说，修改一个，其他的实例也会修改，因为共享的同一个属性，这个时候可以组合使用构造函数模式和原型模式<br><img src="/image/2015-9/1.jpg" alt="" title="Optional title"></li>
+<li>原型对象的缺点是，在包含引用类型值（如数组）的属性来说，修改一个，其他的实例也会修改，因为共享的同一个属性，这个时候可以组合使用构造函数模式和原型模式<br><img src="/image/2015-9/1.jpg" alt title="Optional title"></li>
 </ul>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 原型模式</span></span><br><span class="line">	 <span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">	 &#125;</span><br><span class="line">	 Person.prototype.name = <span class="string">"prototypeName"</span>;</span><br><span class="line">	 Person.prototype.age = <span class="number">26</span>;</span><br><span class="line">	 Person.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	 	<span class="built_in">document</span>.write(<span class="keyword">this</span>.name);</span><br><span class="line">	 	<span class="built_in">document</span>.write(<span class="string">"&lt;br/&gt;"</span>);</span><br><span class="line">	 &#125;</span><br><span class="line">	 <span class="keyword">var</span> person1 = <span class="keyword">new</span> Person();</span><br><span class="line">	 <span class="keyword">var</span> person2 = <span class="keyword">new</span> Person();	</span><br><span class="line">	 person1.sayName();</span><br><span class="line">	 person2.sayName();</span><br></pre></td></tr></table></figure>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">person1.constructor == Person.prototype.constructor</span><br><span class="line"><span class="comment">//true</span></span><br></pre></td></tr></table></figure>
@@ -483,7 +483,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; FlyKnows 2019 
+                    Copyright &copy; FlyKnows 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

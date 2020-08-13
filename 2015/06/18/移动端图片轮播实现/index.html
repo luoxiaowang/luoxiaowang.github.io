@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="FlyKnows | js | css">
-    <meta name="keyword" content="">
+    <meta name="keyword" content>
     <link rel="shortcut icon" href="/image/favicon.ico">
 
     <title>
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -244,7 +244,7 @@
 <p>changedTouches用于最近一次触发该事件的手指信息，也可以阻止默认的touch事件。touchstart的时候，我们记录一下当前触摸的坐标,同时记录下当前图片列表的translateX的位置，用于后面做移动处理。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">bind(oTab,<span class="string">"touchmove"</span>,fnMove);</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">fnMove</span>(<span class="params">ev</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ev=ev.changedTouches[<span class="number">0</span>];</span><br><span class="line">        <span class="comment">//移动后的位置-开始的位置=距离</span></span><br><span class="line">        <span class="keyword">var</span> iDis=ev.pageX-iStartTouchX;</span><br><span class="line">        <span class="comment">//距离+当前的translate值 = move后的translate</span></span><br><span class="line">        iX=iStartX+iDis;</span><br><span class="line">        oList.style.WebkitTransform=oList.style.transform=<span class="string">"translateX("</span>+iX+<span class="string">"px)"</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>移动后，记录下手指在设备上移动的距离，以及对当前的图片列表进行移动。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fnEnd</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//当前的距离/当前设备的宽度 = 当前的位置四舍五入</span></span><br><span class="line">        iNow=iX/iW;</span><br><span class="line">        iNow=-<span class="built_in">Math</span>.round(iNow);</span><br><span class="line">        <span class="keyword">if</span>(iNow&lt;<span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            iNow=<span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(iNow&gt;aNav.length<span class="number">-1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            iNow=aNav.length<span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        tab();</span><br><span class="line">        auto();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>最重要的当然是触摸之后的事件处理，首先我们根据当前图片列表的位置除以设备的宽度，可以得到当前的一个位置索引。通过四舍五入可以判断它移动的距离做相应的处理，根据当前的位置，再做tab轮播切换的处理，最后让它恢复自动轮播。<br><img src="/image/2015-6/1.jpg" alt="" title="Optional title"><br>在线实例：<a href="/example/2015-6/移动端滑屏/index.html">移动端轮播</a></p>
+<p>最重要的当然是触摸之后的事件处理，首先我们根据当前图片列表的位置除以设备的宽度，可以得到当前的一个位置索引。通过四舍五入可以判断它移动的距离做相应的处理，根据当前的位置，再做tab轮播切换的处理，最后让它恢复自动轮播。<br><img src="/image/2015-6/1.jpg" alt title="Optional title"><br>在线实例：<a href="/example/2015-6/移动端滑屏/index.html">移动端轮播</a></p>
 <h3 id="四、结语"><a href="#四、结语" class="headerlink" title="四、结语"></a>四、结语</h3><p>实际上移动端的轮播非常的简单，写这种效果的时候，首先理清楚逻辑即可。</p>
 
 
@@ -432,7 +432,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; FlyKnows 2019 
+                    Copyright &copy; FlyKnows 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

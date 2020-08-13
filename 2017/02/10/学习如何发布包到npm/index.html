@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="FlyKnows | js | css">
-    <meta name="keyword" content="">
+    <meta name="keyword" content>
     <link rel="shortcut icon" href="/image/favicon.ico">
 
     <title>
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -234,7 +234,7 @@
                 post-container">
 
                 <p>本文主要介绍一下我们平时写的一些公共或者常用的包，如何发布的npm上，以供别人下载使用。<br><a id="more"></a><br>在平时的开发过程中，用惯了第三方的npm包，有没有萌生一个自己发布一个的想法，今天就来介绍一下如何将自己封装的包文件上传到npm。</p>
-<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p>首先，我们需要建立自己的包目录，一般会包含哪些文件和路径呢？<br><img src="/image/2017-2/1.png" alt="" title="Optional title"><br>当然我们也可以使用较为简洁的方法，通过<code>npm init</code>来对目录进行初始化，在console下填写一堆信息后，会自动生成类似的目录结构。lib目录下一般放我们所用到的函数或各个模块，这里并不是重点，就不具体介绍了。根目录下一般会与一个<code>index.js</code>的文件,这是我们包的主入口文件，一般用来给外部暴露我们包所提供的接口方法。当然，你也可以不叫这个名字，这样需要我们到<code>package.json</code>中去指定了。</p>
+<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p>首先，我们需要建立自己的包目录，一般会包含哪些文件和路径呢？<br><img src="/image/2017-2/1.png" alt title="Optional title"><br>当然我们也可以使用较为简洁的方法，通过<code>npm init</code>来对目录进行初始化，在console下填写一堆信息后，会自动生成类似的目录结构。lib目录下一般放我们所用到的函数或各个模块，这里并不是重点，就不具体介绍了。根目录下一般会与一个<code>index.js</code>的文件,这是我们包的主入口文件，一般用来给外部暴露我们包所提供的接口方法。当然，你也可以不叫这个名字，这样需要我们到<code>package.json</code>中去指定了。</p>
 <h3 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h3><p><code>package.json</code>可以说是我们包的配置文件，根据你自己的情况进行配置，这里给出一个简单的写法：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"node-echo-luoxiao"</span>,</span><br><span class="line">  <span class="attr">"main"</span>: <span class="string">"./index.js"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"1.0.3"</span>,</span><br><span class="line">  <span class="attr">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"argv"</span>: <span class="string">"0.0.2"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <ul>
 <li>name是我们npm包的包名，这里上传的包名是不能重复的哦，所以赶紧抢先注册吧！</li>
@@ -436,7 +436,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; FlyKnows 2019 
+                    Copyright &copy; FlyKnows 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

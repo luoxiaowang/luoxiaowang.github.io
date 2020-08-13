@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="FlyKnows | js | css">
-    <meta name="keyword" content="">
+    <meta name="keyword" content>
     <link rel="shortcut icon" href="/image/favicon.ico">
 
     <title>
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -235,7 +235,7 @@
 
                 <p>本文主要介绍通过webpack打包生成出来的hash策略及相应的规则。<br><a id="more"></a></p>
 <h3 id="1、hash与chunkHash的区别"><a href="#1、hash与chunkHash的区别" class="headerlink" title="1、hash与chunkHash的区别"></a>1、hash与chunkHash的区别</h3><p>文件的hash指纹通常作为前端静态资源实现增量更新的方案之一，在Webpack编译输出文件的配置过程中，如果需要为文件加入hash指纹，Webpack提供了两个配置项可供使用：hash和chunkhash。那么两者有何区别呢？其各自典型的应用场景又是什么？</p>
-<p><img src="https://lh3.googleusercontent.com/-feuxO7i_WpU/WiisDUxOPBI/AAAAAAAAACc/5ENERNx9V4QDEK41xCp8IR8nojsfU5qWQCHMYCw/I/15120231856243.jpg" alt=""></p>
+<p><img src="https://lh3.googleusercontent.com/-feuxO7i_WpU/WiisDUxOPBI/AAAAAAAAACc/5ENERNx9V4QDEK41xCp8IR8nojsfU5qWQCHMYCw/I/15120231856243.jpg" alt></p>
 <p>首先我们先看一下官方文档对于两者的定义：</p>
 <blockquote>
 <p>[hash] is replaced by the hash of the compilation.</p>
@@ -262,12 +262,12 @@
 <p>如果使用hash作为编译输出文件的hash指纹的话，如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    filename: <span class="string">'[name].[hash:8].js'</span>,</span><br><span class="line">    path: __dirname + <span class="string">'/build'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>hash是compilation对象计算所得，而不是具体的项目文件计算所得。所以以上配置的编译输出文件，所有的文件名都会使用相同的hash指纹。如下：</p>
-<p><img src="https://lh3.googleusercontent.com/-wlJUDhxMPqU/Wh7zMZjuqfI/AAAAAAAAABk/IhEtsJXAHL0bPovXAgeSV4NB7e-UWXjsQCHMYCw/I/15119373145001.jpg" alt=""><br>这样带来的问题是，三个js文件任何一个改动都会影响另外两个文件的最终文件名。上线后，另外两个文件的浏览器缓存也全部失效。这肯定不是我们想要的结果。</p>
+<p><img src="https://lh3.googleusercontent.com/-wlJUDhxMPqU/Wh7zMZjuqfI/AAAAAAAAABk/IhEtsJXAHL0bPovXAgeSV4NB7e-UWXjsQCHMYCw/I/15119373145001.jpg" alt><br>这样带来的问题是，三个js文件任何一个改动都会影响另外两个文件的最终文件名。上线后，另外两个文件的浏览器缓存也全部失效。这肯定不是我们想要的结果。</p>
 <p>那么如何避免这个问题呢？答案就是chunkhash！</p>
 <p>根据chunkhash的定义知道，chunkhash是根据具体模块文件的内容计算所得的hash值，所以某个文件的改动只会影响它本身的hash指纹，不会影响其他文件。配置webpack的output如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    filename: <span class="string">'[name].[chunkhash:8].js'</span>,</span><br><span class="line">    path: __dirname + <span class="string">'/build'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>编译输出的文件为：</p>
-<p><img src="https://lh3.googleusercontent.com/-SrxuYiL3LV8/Wh7zM3v49mI/AAAAAAAAABo/empy-1upuAsdOf5JQjUYV0_lfdLKbX5ywCHMYCw/I/15119400009939.jpg" alt=""><br>每个文件的hash指纹都不相同，上线后无改动的文件不会失去缓存。</p>
+<p><img src="https://lh3.googleusercontent.com/-SrxuYiL3LV8/Wh7zM3v49mI/AAAAAAAAABo/empy-1upuAsdOf5JQjUYV0_lfdLKbX5ywCHMYCw/I/15119400009939.jpg" alt><br>每个文件的hash指纹都不相同，上线后无改动的文件不会失去缓存。</p>
 <blockquote>
 <p>不要在开发环境使用 [chunkhash]/[hash]/[contenthash]，因为不需要在开发环境做持久缓存，而且这样会增加编译时间，开发环境用 [name] 就可以了。</p>
 </blockquote>
@@ -287,12 +287,12 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.applyPlugins(<span class="string">"chunk-hash"</span>, chunk, chunkHash);</span><br></pre></td></tr></table></figure>
 <p>chunk-hash是在<code>chunhash计算完毕之后执行的</code>，这就意味着如果我们在chunk-hash钩子中可以用新的chunkhash替换已存在的值。webpack-md5-hash便是如此实现的，用了另外一种计算方式，去生成hash值。</p>
 <p>看上去一切都很美好，使用了webpack-md5-hash之后，我们去修改css文件的时候，会发现js的hash没有发生变化。那么webpack-md5-hash到底做了些什么？</p>
-<h4 id="3-1-webpack-md5-hash做了什么？"><a href="#3-1-webpack-md5-hash做了什么？" class="headerlink" title="3.1 webpack-md5-hash做了什么？"></a>3.1 webpack-md5-hash做了什么？</h4><p><img src="https://lh3.googleusercontent.com/-FHhesndXOUY/Wh7zNFCIjrI/AAAAAAAAABs/pfTwbRJhcJIVDxYOxWbRAMZqASq52iVXQCHMYCw/I/15119733897082.jpg" alt=""></p>
+<h4 id="3-1-webpack-md5-hash做了什么？"><a href="#3-1-webpack-md5-hash做了什么？" class="headerlink" title="3.1 webpack-md5-hash做了什么？"></a>3.1 webpack-md5-hash做了什么？</h4><p><img src="https://lh3.googleusercontent.com/-FHhesndXOUY/Wh7zNFCIjrI/AAAAAAAAABs/pfTwbRJhcJIVDxYOxWbRAMZqASq52iVXQCHMYCw/I/15119733897082.jpg" alt></p>
 <p>通过模块路径来排序 chunk 的所有依赖模块（仅这个 chunk 中的模块，不含被 CommonsChunkPlugin 剔除的模块），并将这些排序后的模块源代码拼接，最后用 MD5 拼接后内容的 chunkhash。插件这么做的好处是，使 chunkhash 与该 chunk 内代码做直接关联，让 chunk 与其依赖的模块 ID 无关化，无论模块 ID 如何变化，都不会影响父 chunk 的实质内容及 chunkhash。</p>
 <h4 id="3-2-存在的问题？"><a href="#3-2-存在的问题？" class="headerlink" title="3.2 存在的问题？"></a>3.2 存在的问题？</h4><ul>
 <li>当仅有modules id发生改变的时候，hash值不会发生变化（<a href="https://github.com/erm0l0v/webpack-md5-hash/issues/7" target="_blank" rel="noopener">https://github.com/erm0l0v/webpack-md5-hash/issues/7</a> ）</li>
 <li><p>它的计算方法是只计算模块本身的当前内容（包括同步模块），也就是上文的代码。这种计算方式把异步模块的内容忽略掉了。也就是说，<code>主文件计算hash值时没有把异步模块的内容计算在内</code>。</p>
-<p><img src="https://lh3.googleusercontent.com/-to9DqvWoUYY/Wh7zNoLxVyI/AAAAAAAAABw/P3PZbCWJBegTFfml526mt5eiq7HMMbesACHMYCw/I/15119741407593.jpg" alt=""></p>
+<p><img src="https://lh3.googleusercontent.com/-to9DqvWoUYY/Wh7zNoLxVyI/AAAAAAAAABw/P3PZbCWJBegTFfml526mt5eiq7HMMbesACHMYCw/I/15119741407593.jpg" alt></p>
 </li>
 </ul>
 <h4 id="3-3-异步模块问题如何导致的"><a href="#3-3-异步模块问题如何导致的" class="headerlink" title="3.3 异步模块问题如何导致的?"></a>3.3 异步模块问题如何导致的?</h4><p>例如：入口文件main.app.js的代码如下：</p>
@@ -544,7 +544,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; FlyKnows 2019 
+                    Copyright &copy; FlyKnows 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
