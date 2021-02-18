@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="FlyKnows | js | css">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/image/favicon.ico">
+
+    <title>
+        
+          FlyKnows
+        
+    </title>
+
+    <link rel="canonical" href="http://flyknows.com/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">FlyKnows</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/image/bg/home-bg2.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>FlyKnows</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">Record My Life and Front-End</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+
+                <!-- Main Content -->
+
+
+<div class="post-preview">
+
+    <a href="/2020/08/13/deeplink打开应用/">
+        <h2 class="post-title">
+             Electron系列文章 - deeplink打开应用
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            一、deeplink名称浏览器deeplink唤起客户端：eva:?customerId=11111&amp;sellerId=2222
+二、检测系统是否存在deeplinkhttps://github.com/ismailhabib/custom-protocol-detection
+123456789101112import ProtocolCheck from 'custom-prot......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2020-08-13
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2019/03/31/CSS知识点汇总/">
+        <h2 class="post-title">
+            CSS知识点汇总
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            CSS技术点BFC块级格式化上下文，BFC规定了内部的Block Box如何布局。
+定位方案：
+
+内部的Box会在垂直方向上一个接一个放置。
+Box垂直方向的距离由margin决定，属于同一个BFC的两个相邻Box的margin会发生重叠。
+每个元素的margin box 的左边，与包含块border box的左边相接触。
+BFC的区域不会与float box重叠。
+BFC是页面上的一个隔离......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2019-03-31
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2019/03/31/Webpack知识点汇总/">
+        <h2 class="post-title">
+            Webpack知识点汇总
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Webpack技术点babel原理https://juejin.im/post/5ab9f2f3f265da239b4174f0
+loader原理概念当你在 webpack 项目中引入模块时，匹配到 rule （例如上面的 /.js$/）就会启用对应的 loader (例如上面的 a-loader 和 b-loader)。这时，假设我们是 a-loader 的开发者，a-loader 会导出......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2019-03-31
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2019/03/29/React知识点汇总/">
+        <h2 class="post-title">
+            React知识点汇总
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            React技术点什么情况下setState是异步的？react事件处理函数中，以及生命周期函数中。避免重复re-render。但是在自己去addEventListener()的事件中，以及setTimeout这样的异步操作中，都是同步的。原理在于，React在setState的实现中，主要使用isBatchingUpdates判断是直接更新this.state 还是放到队列中（放到dirty......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2019-03-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2018/11/05/定时任务/">
+        <h2 class="post-title">
+            定时任务
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文主要介绍关于系统定时任务的创建和服务自启，以及基于nodejs下的实现方式。
+定时任务如果我们希望实现一个定时任务，例如在每天凌晨7点的时候执行某段脚本，实现的方式有好多种，今天我们主要介绍一下如何通过系统中的crontab以及nodejs的方式分别来实现，这里我们也只会介绍如何去使用，如果希望深入学习，大家还是自行去查找资料。
+crontab首先我们可以进入系统/etc目录下查看有没有......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2018-11-05
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2018/08/21/回忆录/">
+        <h2 class="post-title">
+            回忆录~
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            今天得知我最好的朋友解决了人生大事，说实话真的挺为他感到开心的，不由的感叹人生的无常与美好，生活总在不经意间就给你很多的岔路和转折点。
+从感受他人的人生，不由的回忆起自己的人生。不知道从什么时候开始，自己的人生居然已经到了目前这样的阶段，甚至来不急好好去想，来不及慢慢去感受。
+我一直觉得自己是一个幸运的人，从小到大。尽管也遇到了一些挫折，但是仿佛一切都很顺其自然，就这样过上了现在的生活。一份......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2018-08-21
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/12/07/Hash规则/">
+        <h2 class="post-title">
+            Hash规则
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文主要介绍通过webpack打包生成出来的hash策略及相应的规则。
+1、hash与chunkHash的区别文件的hash指纹通常作为前端静态资源实现增量更新的方案之一，在Webpack编译输出文件的配置过程中，如果需要为文件加入hash指纹，Webpack提供了两个配置项可供使用：hash和chunkhash。那么两者有何区别呢？其各自典型的应用场景又是什么？
+
+首先我们先看一下官方文档......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2017-12-07
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/10/14/React+Flow使用指南/">
+        <h2 class="post-title">
+            React+Flow使用指南
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文主要介绍如何在React项目中使用Flow.js进行静态代码检查，接入的过程中也遇到了很多的问题，flow相关的资料比较少，因此这里把遇到的问题和解决方案同时也一并记录下来。
+一、flow解决的问题？其实问题的根源就是因为javascript太灵活了，在代码运行期间几乎可以做任何的修改，没有东西可以在代码运行前就保证某个变量，某个函数跟预期的一致。所以要加入类型系统来确保代码的可靠性，在......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2017-10-14
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/03/18/如何去写PPT/">
+        <h2 class="post-title">
+            如何去写PPT
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文主要介绍和总结一下写PPT的一些技巧和方法。
+前言忙碌了将近一个月的时间，终于这次P6的晋升顺利的通过，感觉自己终于迈过了职业中的一道坎，接下来的挑战更加让我兴奋。说实话这次PPT花了很多的时间去准备，一开始按照自己的之前写PPT的写法，自我感觉良好，但是预讲下来，反应很差，明显自己没有领悟的做ppt的思路和精髓。不过就算这次晋升没有成功，我也不会太失望，毕竟是对过去一年很好的总结与回顾......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2017-03-18
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/02/12/阿里云上搭建node环境/">
+        <h2 class="post-title">
+            阿里云上搭建node环境
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文介绍一下如何在阿里云环境或者其他虚拟主机上如何搭建一个nodejs环境，并且启动服务以供访问。最近在学习nodejs+koa，本地环境实在不过瘾，就在阿里云上买了个ECS云服务器，但是感觉稍微还是有点贵的，所以下个月打算还是换到搬瓦工的VPS上去。之前也买过虚拟主机，用来鼓捣了一下php等，环境都是一键搭建好的，所以也没怎么接触一些linux命令、shell等等。好了，废话不多说，我们来......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by luoxiao on
+        2017-02-12
+    </p>
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    
+        <li class="next">
+            <a href="/page/2/">Older Posts &rarr;</a>
+        </li>
+    
+</ul>
+
+
+
+                <!-- 如果开启评论功能 -->
+                
+
+            </div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                            <a href="/tags/#前端技术" title="前端技术" rel="7">前端技术</a>
+                            
+                        
+                            
+                            <a href="/tags/#CSS" title="CSS" rel="7">CSS</a>
+                            
+                        
+                            
+                            <a href="/tags/#前端工具" title="前端工具" rel="7">前端工具</a>
+                            
+                        
+                            
+                            <a href="/tags/#Webpack" title="Webpack" rel="2">Webpack</a>
+                            
+                        
+                            
+                            <a href="/tags/#Javascript" title="Javascript" rel="8">Javascript</a>
+                            
+                        
+                            
+                            <a href="/tags/#React" title="React" rel="2">React</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#乱七八糟" title="乱七八糟" rel="6">乱七八糟</a>
+                            
+                        
+                            
+                            <a href="/tags/#nodejs" title="nodejs" rel="4">nodejs</a>
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+
+                        
+                            <img src="/image/bg/person.png">
+                        
+
+                        
+                            <p>罗肖<br>美团点评FE<br>热爱前端，热爱旅游，望有生之年能环游世界<br>人生是一场旅行，希望自己能有多远，浪多远！</p>
+                        
+
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                            
+                                <li>
+                                    <a target="_blank" href="https://www.zhihu.com/people/luo-xiao-97">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa  fa-stack-1x fa-inverse">知</i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+                                <li>
+                                    <a target="_blank" href="http://weibo.com/2680309633">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+
+                            
+                                <li>
+                                    <a target="_blank" href="https://github.com/luoxiaowang">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+
+                            
+                                <li>
+                                    <a target="_blank" href="https://www.linkedin.com/in/肖-罗-46b9b4112">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://huangxuan.me/" target="_blank">黄玄Blog</a></li>
+                    
+                        <li><a href="https://github.com/Huxpro/huxpro.github.io" target="_blank">hux theme</a></li>
+                    
+                </ul>
+                
+            </div>
+        
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/luo-xiao-97">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2680309633">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/luoxiaowang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/肖-罗-46b9b4112">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; FlyKnows 2021 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://flyknows.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://flyknows.com/image/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

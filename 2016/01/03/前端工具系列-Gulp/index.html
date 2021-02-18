@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="FlyKnows | js | css">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/image/favicon.ico">
+
+    <title>
+        
+          前端工具系列-Gulp - FlyKnows
+        
+    </title>
+
+    <link rel="canonical" href="http://flyknows.com/2016/01/03/前端工具系列-Gulp/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">FlyKnows</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://flyknows.com/image/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/image/bg/home-bg2.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#前端工具" title="前端工具">前端工具</a>
+                        
+                    </div>
+                    <h1>前端工具系列-Gulp</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by luoxiao on
+                        2016-01-03
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>本文主要介绍前端开发过程中如何使用Gulp及Gulp的一些插件的使用。<br><a id="more"></a></p>
+<h3 id="Gulp和Grunt的区别"><a href="#Gulp和Grunt的区别" class="headerlink" title="Gulp和Grunt的区别"></a>Gulp和Grunt的区别</h3><ul>
+<li>Gulp采用一种管道的写法，在写法上比Grunt要容易并且更加的直观，写起来更像是在写代码，而Grunt更像是在写各种配置文件。</li>
+<li>Gulp的插件比Grunt的要少，且多为第三方插件，而Grunt官方插件会比较多，文档齐全。</li>
+<li>Gulp的每个插件只完成一个功能，这也是Unix的设计原则之一，各个功能通过流进行整合并完成复杂的任务。</li>
+<li>Gulp相比Grunt更有设计感，核心设计基于Unix流的概念，通过管道连接，不需要写中间文件</li>
+</ul>
+<h3 id="Gulp的安装"><a href="#Gulp的安装" class="headerlink" title="Gulp的安装"></a>Gulp的安装</h3><p>和Grunt一样，首先我们需要node.js的环境，这里如何安装就不多说了，node安装好了之后，我们就可以开始安装gulp了：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> gulp -g</span><br><span class="line">npm <span class="keyword">install</span> gulp <span class="comment">--save-dev</span></span><br></pre></td></tr></table></figure></p>
+<p>gulp需要先在全局进行安装，然后我们再到自己的项目根目录去安装gulp模块，通过<code>--save-dev</code>的方式同时写入到<code>package.json</code>文件中去。安装其他任务模块也很简单：<br><figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --<span class="built_in">save</span>-<span class="built_in">dev</span> gulp-uglify</span><br></pre></td></tr></table></figure></p>
+<h3 id="gulpfile-js"><a href="#gulpfile-js" class="headerlink" title="gulpfile.js"></a>gulpfile.js</h3><p>和Grunt一样，Gulp也需要有这样的一个文件，我们就在这个文件中去配置各种自动化任务。首先我们来看一个简单的任务创建：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"><span class="keyword">var</span> uglify = <span class="built_in">require</span>(<span class="string">'gulp-uglify'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> watcher = gulp.watch([<span class="string">'js/**/*.js'</span>, <span class="string">'!js/**/*.min.js'</span>], [<span class="string">'minify'</span>]);</span><br><span class="line"></span><br><span class="line">watcher.on(<span class="string">'change'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">'Event type: '</span> + event.type);</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">'Event path: '</span> + event.path);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'init'</span>, [<span class="string">'style'</span>, <span class="string">'templates'</span>]);</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'minify'</span>,[<span class="string">'init'</span>], <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  gulp.src([<span class="string">'js/**/*.js'</span>, <span class="string">'!js/**/*.min.js'</span>])</span><br><span class="line">    .pipe(uglify())</span><br><span class="line">    .pipe(gulp.dest(<span class="string">'./build/templates'</span>))</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p><code>require</code>的方式加载了<code>gulp</code>及<code>gulp-uglify</code>两个模块，然后我们开始定制我们的任务。<br><code>gulp.task()</code>方法创建一个任务，第一个参数为任务名称，第二个参数为一个函数，我们就在函数里面进行操作。如果一个任务依赖于前一个任务，那么可以再加个一个参数，这个参数是一个数组，数组里面就是任务名。这里会等到<code>init</code>任务执行完成后再执行后面的回调。或者像init任务那样，定义多个操作，但是它们是并行的。如果一个任务名称为<code>default</code>，则直接可以执行<code>gulp</code>去运行，否则需要加上任务名<code>gulp minify</code>执行任务。<br><code>gulp.src()</code>指定我们所有要处理的文件，这里的参数可以是某个文件，也可以是个数组。<br><code>pipe()</code>方法用来将上一个任务处理的输出转换为当前的输入，进行链式的操作。<br><code>task</code>中调用了两次<code>pipe()</code>,代表了我们执行了两个任务操作，第一个是用<code>uglify()</code>压缩源码，第二个是用gulp自带的    <code>dest()</code>方法将上一步的输出写入本地文件夹<code>./build/templates</code>中，如果目录不存在则会新建。<br><code>watch()</code>方法用来执行监听，是gulp自带的方法，grunt需要处理监听需要安装另外的插件。第一个参数为数组或者字符串，是需要监听的文件。第二个参数是执行任务的数组。当监听的文件发生改变后，会触发change事件，执行相应的函数。</p>
+<p><strong>watch方法还可能触发以下事件：</strong></p>
+<ul>
+<li>end：回调函数运行完毕时触发。</li>
+<li>error：发生错误时触发。</li>
+<li>ready：当开始监听文件时触发。</li>
+<li>nomatch：没有匹配的监听文件时触发。</li>
+</ul>
+<p><strong>watcher对象还包含其他一些方法：</strong></p>
+<ul>
+<li>watcher.end()：停止watcher对象，不会再调用任务或回调函数。</li>
+<li>watcher.files()：返回watcher对象监视的文件。</li>
+<li>watcher.add(glob)：增加所要监视的文件，它还可以附件第二个参数，表示回调函数。</li>
+<li>watcher.remove(filepath)：从watcher对象中移走一个监视的文件。</li>
+</ul>
+<h3 id="常用模块设置"><a href="#常用模块设置" class="headerlink" title="常用模块设置"></a>常用模块设置</h3><h4 id="1-gulp-load-plugins"><a href="#1-gulp-load-plugins" class="headerlink" title="1.gulp-load-plugins"></a>1.gulp-load-plugins</h4><p>使用gulp-load-plugins模块，可以加载package.json文件中所有的gulp模块，不用单独去require每个模块。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>),</span><br><span class="line">    gulpLoadPlugins = <span class="built_in">require</span>(<span class="string">'gulp-load-plugins'</span>),</span><br><span class="line">    plugins = gulpLoadPlugins();</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'js'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> gulp.src(<span class="string">'js/*.js'</span>)</span><br><span class="line">      .pipe(plugins.jshint())</span><br><span class="line">      .pipe(plugins.jshint.reporter(<span class="string">'default'</span>))</span><br><span class="line">      .pipe(plugins.uglify())</span><br><span class="line">      .pipe(plugins.concat(<span class="string">'app.js'</span>))</span><br><span class="line">      .pipe(gulp.dest(<span class="string">'build'</span>));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-gulp-server-livereload"><a href="#2-gulp-server-livereload" class="headerlink" title="2.gulp-server-livereload"></a>2.gulp-server-livereload</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"><span class="keyword">var</span> server = <span class="built_in">require</span>(<span class="string">'gulp-server-livereload'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 启动本地服务器 , 自动刷新</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">gulp.task(<span class="string">'webserver'</span>, [<span class="string">'init'</span>], <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    gulp.src(<span class="string">'./'</span>)</span><br><span class="line">        .pipe(server(&#123;</span><br><span class="line">            port: <span class="number">3000</span>,</span><br><span class="line">            livereload: &#123;</span><br><span class="line">                enable: <span class="literal">true</span>,</span><br><span class="line">                filter: <span class="function"><span class="keyword">function</span> (<span class="params">fileName, cb</span>) </span>&#123;</span><br><span class="line">                    <span class="keyword">var</span> reg = <span class="regexp">/\.idea|\.git|DS_Store/ig</span>;</span><br><span class="line">                    cb(!(reg.test(fileName)));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            directoryListing: <span class="literal">true</span></span><br><span class="line">        &#125;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="3-gulp-less"><a href="#3-gulp-less" class="headerlink" title="3.gulp-less"></a>3.gulp-less</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"><span class="keyword">var</span> less = <span class="built_in">require</span>(<span class="string">'gulp-less'</span>);</span><br><span class="line"><span class="keyword">var</span> sourcemaps = <span class="built_in">require</span>(<span class="string">'gulp-sourcemaps'</span>);</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 编译less</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">gulp.task(<span class="string">'style'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> gulp.src(<span class="string">'./less/*.less'</span>)</span><br><span class="line">        .pipe(sourcemaps.init())</span><br><span class="line">        .pipe(less())</span><br><span class="line">        .pipe(sourcemaps.write(<span class="string">'./maps'</span>))</span><br><span class="line">        .pipe(gulp.dest(<span class="string">'./css'</span>));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="4-gulp-nunjucks-html"><a href="#4-gulp-nunjucks-html" class="headerlink" title="4.gulp-nunjucks-html"></a>4.gulp-nunjucks-html</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 编译nunjucks模板</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> nunjucks = <span class="built_in">require</span>(<span class="string">'gulp-nunjucks-html'</span>);</span><br><span class="line"> </span><br><span class="line">gulp.task(<span class="string">'templates'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> nunjucksOpts = &#123;</span><br><span class="line">        searchPaths: [<span class="string">'./pages/'</span>]</span><br><span class="line">    &#125;;</span><br><span class="line">    gulp.src(<span class="string">'./pages/*.html'</span>)</span><br><span class="line">        .pipe(nunjucks(nunjucksOpts))</span><br><span class="line">        .pipe(gulp.dest(<span class="string">'./'</span>));</span><br><span class="line">    gulp.src(<span class="string">'./pages/tabspage/*.html'</span>)</span><br><span class="line">        .pipe(nunjucks(nunjucksOpts))</span><br><span class="line">        .pipe(gulp.dest(<span class="string">'./tabspage'</span>));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="5-gulp-minify-css"><a href="#5-gulp-minify-css" class="headerlink" title="5.gulp-minify-css"></a>5.gulp-minify-css</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> minifyCSS = <span class="built_in">require</span>(<span class="string">'gulp-minify-css'</span>);</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'build'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    gulp.src(<span class="string">'./css/*.css'</span>).pipe(minifyCSS()).pipe(gulp.dest(<span class="string">'./build/css/'</span>));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="6-gulp-clean"><a href="#6-gulp-clean" class="headerlink" title="6.gulp-clean"></a>6.gulp-clean</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 清除编译的文件</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    gulp.task(<span class="string">'clean'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        gulp.src([<span class="string">'./css'</span>, <span class="string">'./*.html'</span>,<span class="string">'./tabspage'</span>, <span class="string">'./build'</span>], &#123;<span class="attr">read</span>: <span class="literal">false</span>&#125;)</span><br><span class="line">        .pipe(clean());</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/01/03/前端工具系列-Bower/" data-toggle="tooltip" data-placement="top" title="前端工具系列-Bower">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/01/03/前端工具系列-Grunt/" data-toggle="tooltip" data-placement="top" title="前端工具系列-Grunt">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#前端工具" title="前端工具">前端工具</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://huangxuan.me/" target="_blank">黄玄Blog</a></li>
+                    
+                        <li><a href="https://github.com/Huxpro/huxpro.github.io" target="_blank">hux theme</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "http://flyknows.com/2016/01/03/前端工具系列-Gulp/";
+    var disqus_url = "http://flyknows.com/2016/01/03/前端工具系列-Gulp/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/luo-xiao-97">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2680309633">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/luoxiaowang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/肖-罗-46b9b4112">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; FlyKnows 2021 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://flyknows.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://flyknows.com/image/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

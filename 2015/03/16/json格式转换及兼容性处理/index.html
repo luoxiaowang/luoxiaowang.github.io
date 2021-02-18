@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="FlyKnows | js | css">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/image/favicon.ico">
+
+    <title>
+        
+          json格式转换及兼容性处理 - FlyKnows
+        
+    </title>
+
+    <link rel="canonical" href="http://flyknows.com/2015/03/16/json格式转换及兼容性处理/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">FlyKnows</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://flyknows.com/image/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/image/bg/home-bg2.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Javascript" title="Javascript">Javascript</a>
+                        
+                    </div>
+                    <h1>json格式转换及兼容性处理</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by luoxiao on
+                        2015-03-16
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>这里我们讨论下json与字符串的相互转换，以及json在低版本浏览器下的兼容性问题如何处理，同时也简单的说明了一下如何实现对象的深拷贝和浅拷贝。<br><a id="more"></a></p>
+<h3 id="一、json字符串转换为json对象"><a href="#一、json字符串转换为json对象" class="headerlink" title="一、json字符串转换为json对象"></a>一、json字符串转换为json对象</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">'&#123;"name":"luoxiao"&#125;'</span>; <span class="comment">//严格模式才能转换</span></span><br><span class="line">                <span class="keyword">var</span> json = <span class="built_in">JSON</span>.parse(str); <span class="comment">//字符串转换成json对象</span></span><br><span class="line">                <span class="built_in">document</span>.write(json.name);    <span class="comment">//luoxiao</span></span><br><span class="line">                <span class="built_in">document</span>.write(<span class="string">"&lt;br/&gt;"</span>);</span><br></pre></td></tr></table></figure>
+<p>注意：这里的json字符串必须为严格模式，使用JSON.parse来进行转换。</p>
+<h3 id="二、json对象转换成json字符串"><a href="#二、json对象转换成json字符串" class="headerlink" title="二、json对象转换成json字符串"></a>二、json对象转换成json字符串</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> json = &#123;</span><br><span class="line">                    name: <span class="string">"hello"</span></span><br><span class="line">                &#125;;</span><br><span class="line">                <span class="keyword">var</span> str = <span class="built_in">JSON</span>.stringify(json); <span class="comment">//json对象转换为字符串</span></span><br><span class="line">                <span class="built_in">document</span>.write(str);  <span class="comment">//&#123;"name":"hello"&#125;</span></span><br><span class="line">                <span class="built_in">document</span>.write(<span class="string">"&lt;br/&gt;"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="三、对象浅拷贝"><a href="#三、对象浅拷贝" class="headerlink" title="三、对象浅拷贝"></a>三、对象浅拷贝</h3><p>首先说一下什么是深拷贝，什么是浅拷贝，深拷贝就是如果其中的某个属性是对象的话，会一直遍历深入到对象内部去进行拷贝。而浅拷贝就会直接覆盖这个对象，不会去遍历对象的内部属性。那么这里我们看下对象的浅拷贝如何去实现：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//浅拷贝</span></span><br><span class="line">                <span class="keyword">var</span> a = &#123;</span><br><span class="line">                    name: <span class="string">'hello'</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">var</span> b = &#123;&#125;;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">var</span> attr <span class="keyword">in</span> a) &#123;</span><br><span class="line">                    b[attr] = a[attr];</span><br><span class="line">                &#125;</span><br><span class="line">                b.name = <span class="string">"world"</span>;</span><br><span class="line">                <span class="built_in">document</span>.write(a.name);</span><br><span class="line">                <span class="built_in">document</span>.write(<span class="string">"&lt;br/&gt;"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>从代码可以看出来，如果这里a对象里面还有其他的对象的话，那么那个对象不会继续被遍历，而是直接赋值给了b。</p>
+<h3 id="四、对象的深拷贝"><a href="#四、对象的深拷贝" class="headerlink" title="四、对象的深拷贝"></a>四、对象的深拷贝</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//深拷贝</span></span><br><span class="line">        <span class="keyword">var</span> a = &#123;</span><br><span class="line">                    name: <span class="string">'hello'</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">var</span> str = <span class="built_in">JSON</span>.stringify(a);</span><br><span class="line">                <span class="keyword">var</span> b = <span class="built_in">JSON</span>.parse(str);</span><br><span class="line">                b.name = <span class="string">"what"</span>;</span><br><span class="line">                <span class="built_in">document</span>.write(a.name);</span><br><span class="line">                <span class="built_in">document</span>.write(<span class="string">"&lt;br/&gt;"</span>);</span><br><span class="line">                <span class="comment">//引入json2.js  所有浏览器都兼容</span></span><br></pre></td></tr></table></figure>
+<p>其实对象的深拷贝可以有很多种办法，一般会去判断一下属性的类型，然后进行遍历再做递归。这里我们使用的是另外一种方式，使用json转换这样的方法去进行拷贝，先转换成json字符串，然后将字符串转换为json对象，这样既不会直接把a赋值给b，又可以实现对象的深拷贝。</p>
+<h3 id="五、json转换兼容性问题处理"><a href="#五、json转换兼容性问题处理" class="headerlink" title="五、json转换兼容性问题处理"></a>五、json转换兼容性问题处理</h3><p>很明显，在低版本的浏览器中json转换是不被支持的，因此我们必须想想其他的方法去实现。我们可以引用json2.js这个库来使我们的低版本浏览器也支持上面的写法。但是如果我就是不想引入，又该如何解决呢？网上看到一篇文章，它说阿里就曾经有过这样的面试题：低版本浏览器如何兼容json对象？<br>我们可以参照一下下面这个地址，看下别人的解决办法：<br><a href="http://www.cnblogs.com/bigbrother1984/p/4338669.html" target="_blank" rel="noopener">低版本浏览器如何兼容json对象？</a><br>第一种方式：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">'&#123;"name": "cnblogs"&#125;'</span>;</span><br><span class="line">(<span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">'return '</span> + str))();   <span class="comment">//&#123;name: "cnblogs"&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>采用这样一种方式是可以实现json字符串转换为对象的。</p>
+<p>第二种方式：<br>采用的是eval()这个函数去执行，但是写的方式却有些问题：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">'&#123;"name": "cnblogs"&#125;'</span>;</span><br><span class="line"><span class="built_in">eval</span>(str);   <span class="comment">//SyntaxError: Unexpected token :</span></span><br></pre></td></tr></table></figure></p>
+<p>说明一下错误的原因：<br>{}在js中存在几种用法：</p>
+<ul>
+<li>对象：用于创建对象 var obj = {…}</li>
+<li>代码块(code block): if(){…}</li>
+</ul>
+<p>做个测试：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">name</span>:<span class="string">'luoxiao'</span>&#125;  <span class="comment">//luoxiao</span></span><br></pre></td></tr></table></figure></p>
+<p>在console下打出来，显示的是字符串”luoxiao”，为什么？因为{}用于开头的时候，会被当做code block去处理，前面的name被当做了js的标记（label statement），而后面的就被当做了字符串，因此输出的就是一个字符串。所以之前上面的例子，name被加上了双引号，因此不会被当做是js的标记，字符串中又包括”：”，因此会提示不合法。<br>再看个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">name</span>:<span class="string">'luoxiao'</span>&#125;;</span><br><span class="line">obj   <span class="comment">//Object &#123;name:'luoxiao'&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>这样输出的是个对象，因为”=”运算符左右必须都是表达式，因此解析之后会被当做对象。<br>这里我们就可以使用这样一种方式去做，以解决这个问题：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">'&#123;"name": "cnblogs"&#125;'</span>;</span><br><span class="line"><span class="built_in">eval</span>(<span class="string">"("</span>+str+<span class="string">")"</span>);  <span class="comment">//&#123;name:'cnblogs'&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>转换为这样一个表达式以后就可以成功了。<br>这样的一些小点在ECMAScript里面都有说明，有时间多去看看，下面是ECMAScript5的汉化文档：<br><a href="http://www.w3.org/html/ig/zh/wiki/ES5" target="_blank" rel="noopener">ECMAScript</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2015/03/16/js面向对象的一些总结/" data-toggle="tooltip" data-placement="top" title="js面向对象的一些总结">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2015/03/10/侧边栏效果/" data-toggle="tooltip" data-placement="top" title="侧边栏效果">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Javascript" title="Javascript">Javascript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://huangxuan.me/" target="_blank">黄玄Blog</a></li>
+                    
+                        <li><a href="https://github.com/Huxpro/huxpro.github.io" target="_blank">hux theme</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "http://flyknows.com/2015/03/16/json格式转换及兼容性处理/";
+    var disqus_url = "http://flyknows.com/2015/03/16/json格式转换及兼容性处理/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/luo-xiao-97">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2680309633">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/luoxiaowang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/肖-罗-46b9b4112">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; FlyKnows 2021 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://flyknows.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://flyknows.com/image/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
