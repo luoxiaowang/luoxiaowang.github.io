@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="FlyKnows | js | css">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/image/favicon.ico">
+
+    <title>
+        
+           Electron系列文章 - deeplink打开应用 - FlyKnows
+        
+    </title>
+
+    <link rel="canonical" href="http://flyknows.com/2020/08/13/deeplink打开应用/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">FlyKnows</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://flyknows.com/image/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/image/bg/home-bg2.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Electron" title="Electron">Electron</a>
+                        
+                    </div>
+                    <h1> Electron系列文章 - deeplink打开应用</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by luoxiao on
+                        2020-08-13
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="一、deeplink名称"><a href="#一、deeplink名称" class="headerlink" title="一、deeplink名称"></a>一、deeplink名称</h3><p>浏览器deeplink唤起客户端：<a href="eva:?customerId=11111&amp;sellerId=2222" target="_blank" rel="noopener">eva:?customerId=11111&amp;sellerId=2222</a></p>
+<h3 id="二、检测系统是否存在deeplink"><a href="#二、检测系统是否存在deeplink" class="headerlink" title="二、检测系统是否存在deeplink"></a>二、检测系统是否存在deeplink</h3><p><a href="https://github.com/ismailhabib/custom-protocol-detection" target="_blank" rel="noopener">https://github.com/ismailhabib/custom-protocol-detection</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ProtocolCheck <span class="keyword">from</span> <span class="string">'custom-protocol-detection'</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">checkDeepLink</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">  ProtocolCheck(url, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> title = <span class="string">'检测到您还未安装客服工作台PC客户端，请先下载安装？'</span></span><br><span class="line">    <span class="keyword">const</span> openDialog = withDialog(&#123;</span><br><span class="line">      title,</span><br><span class="line">    &#125;)</span><br><span class="line">    openDialog(<span class="keyword">this</span>, () =&gt; &#123;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;, () =&gt; &#123;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="三、详细设计"><a href="#三、详细设计" class="headerlink" title="三、详细设计"></a>三、详细设计</h3><h4 id="1、浏览器通过url调起应用的原理"><a href="#1、浏览器通过url调起应用的原理" class="headerlink" title="1、浏览器通过url调起应用的原理"></a>1、浏览器通过url调起应用的原理</h4><p>max下：会在要调起应用的包内容中，Info.plist 文件下注册一个URL Schemes，名字为为deeplink注册名</p>
+<p>windows下：在注册表的HKEY_CALSSES_ROOT目录下，添加一个deeplink scheme的字段，并将值指向要唤起的exe 包的路径</p>
+<p><img src="/images/pasted-1.png" alt="upload successful"></p>
+<h4 id="2、如何定义协议？"><a href="#2、如何定义协议？" class="headerlink" title="2、如何定义协议？"></a>2、如何定义协议？</h4><p>electron中提供了协议注册的方法，使用<code>app.setAsDefaultProtocolClient(&#39;你要注册的协议名称&#39;)</code>即可：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> PROTOCOL = <span class="string">'eva'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">registerLink</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> args = []</span><br><span class="line">  <span class="keyword">if</span> (getEnv() === <span class="string">'dev'</span>) &#123;</span><br><span class="line">    <span class="comment">// 如果是开发阶段，需要把我们的脚本的绝对路径加入参数中</span></span><br><span class="line">    args.push(path.resolve(process.argv[<span class="number">1</span>]))</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 此处有一个安全漏洞，加一个 `--` 以确保后面的参数不被 Electron 处理，https://www.nsfocus.com.cn/html/2018/39_0125/732.html</span></span><br><span class="line">  args.push(<span class="string">'--'</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 注册协议  Notice: mac下没有args参数，因此无法开发环境调试，具体参考：https://newsn.net/say/electron-fake-protocal-debug.html</span></span><br><span class="line">  app.setAsDefaultProtocolClient(PROTOCOL, process.execPath, args)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上方式会在用户启动应用后，在主进程中进行注册操作，之后web端即可唤起应用。但是如果用户是第一次安装，并没有打开过app，仍然需要通过deeplink唤起的话，可以通过 nsis 去进行应用的安装和卸载的相关配置，在应用安装和卸载的时候进行注册：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">"nsis": &#123;</span><br><span class="line">      "allowToChangeInstallationDirectory": true,</span><br><span class="line">      "oneClick": false,</span><br><span class="line">      "menuCategory": false,</span><br><span class="line">      "allowElevation": true,</span><br><span class="line">      // 这里指定要包含 nsis 的脚本，基于内置的nsis脚本进一步扩展</span><br><span class="line">      "include": "build/installer.nsh",</span><br><span class="line">      "installerIcon": "build/images/eva.ico",</span><br><span class="line">      "uninstallerIcon": "build/images/eva.ico",</span><br><span class="line">      "installerHeaderIcon": "build/images/eva.ico",</span><br><span class="line">      "createDesktopShortcut": true</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>下面我们就可以在installer.nsh中自定义安装和卸载的一些逻辑了，customInstall和customUnInstall分别是安装和卸载时候的钩子：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">!macro customInstall</span><br><span class="line">  DetailPrint "Register eva URI Handler"</span><br><span class="line">  DeleteRegKey HKCR "eva"</span><br><span class="line">  WriteRegStr HKCR "eva" "" "URL:eva"</span><br><span class="line">  WriteRegStr HKCR "eva" "URL Protocol" ""</span><br><span class="line">  WriteRegStr HKCR "eva\shell" "" ""</span><br><span class="line">  WriteRegStr HKCR "eva\shell\Open" "" ""</span><br><span class="line">  WriteRegStr HKCR "eva\shell\Open\command" "" "$INSTDIR\$&#123;APP_EXECUTABLE_FILENAME&#125; %1"</span><br><span class="line">!macroend</span><br><span class="line"></span><br><span class="line">!macro customUnInstall</span><br><span class="line">  DeleteRegKey HKCR "eva"</span><br><span class="line">!macroend</span><br></pre></td></tr></table></figure>
+<h4 id="3、唤起引用时触发的钩子函数"><a href="#3、唤起引用时触发的钩子函数" class="headerlink" title="3、唤起引用时触发的钩子函数"></a>3、唤起引用时触发的钩子函数</h4><ul>
+<li>mac 通过 app.on(‘open-url’, fun)监听</li>
+<li>window 通过 app.on(“second-instance”,fun)监听</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">listenerInstance</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 其他实例启动时，主实例会通过 second-instance 事件接收其他实例的启动参数 `argv`</span></span><br><span class="line">  app.on(<span class="string">'second-instance'</span>, (event, argv) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (process.platform === <span class="string">'win32'</span>) &#123;</span><br><span class="line">      <span class="comment">// Windows 下通过协议URL启动时，URL会作为参数，所以需要在这个事件里处理</span></span><br><span class="line">      handleArgv(argv)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// macOS 下通过协议URL启动时，主实例会通过 open-url 事件接收这个 URL</span></span><br><span class="line">  app.on(<span class="string">'open-url'</span>, (event, urlStr) =&gt; &#123;</span><br><span class="line">    handleUrl(urlStr)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.1 macOS 下通过URL Schemes协议调起应用时触发open-url事件，mac下应用只能单开，这个时候我们可以根据解析url获取到具体的参数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> schemeParam = <span class="literal">null</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleUrl</span>(<span class="params">urlStr</span>) </span>&#123;</span><br><span class="line">  log.info(<span class="string">'handleUrl&gt;&gt;&gt;'</span>, urlStr)</span><br><span class="line">  <span class="comment">// eva:?customerId=585bc8a7b25a3b60efd36f60&amp;sellerId=2222</span></span><br><span class="line">  <span class="keyword">const</span> urlObj = <span class="keyword">new</span> URL(urlStr)</span><br><span class="line">  <span class="keyword">const</span> &#123; searchParams &#125; = urlObj</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> entries = searchParams.entries()</span><br><span class="line">  <span class="keyword">const</span> result = &#123;&#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> entry <span class="keyword">of</span> entries) &#123;</span><br><span class="line">    <span class="keyword">const</span> [key, value] = entry</span><br><span class="line">    result[key] = value</span><br><span class="line">  &#125;</span><br><span class="line">  schemeParam = result</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> evaAppWin = global.evaAppWin</span><br><span class="line">  <span class="keyword">if</span> (evaAppWin) &#123;</span><br><span class="line">    <span class="comment">// 如果这个时候app是ready的，并且能拿到win的对象，则通知webview进行link的行为触发，且传递参数</span></span><br><span class="line">    evaAppWin.webContents.send(<span class="string">'schemeLink'</span>, schemeParam)</span><br><span class="line">    <span class="comment">// 调用完成之后，清掉内存中记下的参数（因为考虑到登录后再发起会话，所以需要缓存下参数）</span></span><br><span class="line">    emptySchemeParam()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.2  window下通过URL Schemes协议调起应用会分两种情况：</p>
+<ul>
+<li>应用处于打开状态，会触发 second-instance 事件并接收这个 URL。</li>
+<li>应用处于未打开状态，在网页端通过浏览器调起应用之后不会触发 second-instance 事件；这个时候需要主动判断应用是否是从网页端调起，并主动触发 second-instance 事件；</li>
+</ul>
+<p>通过deeplink请求后，会开启一个新的进程，打开新的应用（mac下不会），这时候我们需要检测是否已经有app已经启动。因为我们的app是支持多开的，如果应用已经打开的情况下，这里还会分为两种情况：</p>
+<ul>
+<li>如果再次通过deeplink唤起的，唤起的应用要立刻退出，因为deeplink情况下，不需要再开一个应用，只需在目前已经打开的应用上操作即可。已经启动的应用主进程则会检测到second-instance获取到参数</li>
+<li>如果不是通过deeplink唤起的，而是手动在开启一个应用，则放开限制，同时新开的应用需要一起监听 second-instance</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkSchemeSetup</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 获取单实例锁</span></span><br><span class="line">  <span class="keyword">const</span> gotTheLock = app.requestSingleInstanceLock()</span><br><span class="line">  <span class="comment">// windows如果是通过url schema启动则发出事件处理</span></span><br><span class="line">  <span class="comment">// 启动参数超过1个才可能是通过url schema启动</span></span><br><span class="line">  <span class="comment">// mac下process.argv只有一个</span></span><br><span class="line">  <span class="keyword">if</span> (process.argv.length &gt; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="comment">// scheme唤起，并且没有获取到单例锁</span></span><br><span class="line">    <span class="keyword">if</span> (!gotTheLock) &#123;</span><br><span class="line">      <span class="comment">// 如果获取失败，说明已经有实例在运行了，直接退出</span></span><br><span class="line">      app.quit()</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      listenerInstance()</span><br><span class="line">      <span class="comment">// 第一次被deeplink唤起的时候，先需要预存下参数，便于登录后发起会话</span></span><br><span class="line">      handleArgv(process.argv)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    listenerInstance()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// win下</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleArgv</span>(<span class="params">argv</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> prefix = <span class="string">`<span class="subst">$&#123;PROTOCOL&#125;</span>:`</span></span><br><span class="line">  <span class="comment">// 开发阶段，跳过前两个参数（`electron.exe .`）</span></span><br><span class="line">  <span class="comment">// 打包后，跳过第一个参数（`evaclient.exe`）</span></span><br><span class="line">  <span class="keyword">const</span> offset = getEnv() === <span class="string">'dev'</span> ? <span class="number">2</span> : <span class="number">1</span></span><br><span class="line">  <span class="keyword">const</span> url = argv.find(<span class="function">(<span class="params">arg, i</span>) =&gt;</span> i &gt;= offset &amp;&amp; arg.startsWith(prefix))</span><br><span class="line">  <span class="keyword">if</span> (url) handleUrl(url)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.3 没有登录的情况下，则先缓存url参数，等到登录成功后，传递参数，通知webview触发行为。</p>
+<h3 id="四、一些注意点"><a href="#四、一些注意点" class="headerlink" title="四、一些注意点"></a>四、一些注意点</h3><ul>
+<li>mac下electron应用只能单开，通过deeplink可以唤起当前应用<br>mac下开发环境无法进行deeplink调试，原因是setAsDefaultProtocolClient不支持args指定参数，只能* 打开electron自己的壳子，无法指向要执行的代码文件。参考：<br><a href="https://newsn.net/say/electron-fake-protocal-debug.html" target="_blank" rel="noopener">https://newsn.net/say/electron-fake-protocal-debug.html</a></li>
+</ul>
+<h3 id="五、可能存在的问题"><a href="#五、可能存在的问题" class="headerlink" title="五、可能存在的问题"></a>五、可能存在的问题</h3><ul>
+<li>windows下setAsDefaultProtocolClient注册协议时，安全管家有弹出提示警告，有程序在修改注册表，是否允许。（选允许则没有问题，不是必现，要用户注意一下，否则拦截后可能会导致deeplink无法唤起应用）</li>
+<li>有一定概率卸载后，注册表删除不干净，再次点击deeplink时依旧弹窗，但是打不开应用，不过没有什么影响。</li>
+</ul>
+<h3 id="六、参考文章"><a href="#六、参考文章" class="headerlink" title="六、参考文章"></a>六、参考文章</h3><p><a href="https://juejin.im/post/6844904146848448525" target="_blank" rel="noopener">https://juejin.im/post/6844904146848448525</a></p>
+<p><a href="https://www.jianshu.com/p/d880c0ca0911" target="_blank" rel="noopener">https://www.jianshu.com/p/d880c0ca0911</a></p>
+<p><a href="https://github.com/oikonomopo/electron-deep-linking-mac-win" target="_blank" rel="noopener">https://github.com/oikonomopo/electron-deep-linking-mac-win</a></p>
+<p><a href="https://www.jianshu.com/p/5c0bb0599dff" target="_blank" rel="noopener">https://www.jianshu.com/p/5c0bb0599dff</a></p>
+<p><a href="https://segmentfault.com/a/1190000020187358" target="_blank" rel="noopener">https://segmentfault.com/a/1190000020187358</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/07/13/设计模式-策略模式/" data-toggle="tooltip" data-placement="top" title="设计模式 - 策略模式">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/03/31/CSS知识点汇总/" data-toggle="tooltip" data-placement="top" title="CSS知识点汇总">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Electron" title="Electron">Electron</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://huangxuan.me/" target="_blank">黄玄Blog</a></li>
+                    
+                        <li><a href="https://github.com/Huxpro/huxpro.github.io" target="_blank">hux theme</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "http://flyknows.com/2020/08/13/deeplink打开应用/";
+    var disqus_url = "http://flyknows.com/2020/08/13/deeplink打开应用/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/luo-xiao-97">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2680309633">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/luoxiaowang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/肖-罗-46b9b4112">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; FlyKnows 2021 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://flyknows.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://flyknows.com/image/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

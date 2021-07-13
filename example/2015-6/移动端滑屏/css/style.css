@@ -1,0 +1,68 @@
+@charset "UTF-8";
+html, body, ul, li, p, img, section {
+    margin: 0;
+    padding: 0;
+}
+
+ul, li {
+    list-style-type: none;
+}
+
+#tabPic {
+    overflow: hidden;
+    position: relative;
+}
+
+#picList {
+    overflow: hidden;
+    width: 500%;
+}
+
+#picList li {
+    float: left;
+    width: 20%;
+}
+
+#picList img {
+    width: 100%;
+    height: 171px;
+}
+
+.picMask {
+    height: 60px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.9) 0, rgba(0, 0, 0, 0.8) 20%, rgba(0, 0, 0, 0));
+    background: linear-gradient(bottom, rgba(0, 0, 0, 0.9) 0, rgba(0, 0, 0, 0.8) 20%, rgba(0, 0, 0, 0));
+}
+
+.picMask p {
+    font-size: 16px;
+    line-height: 60px;
+    text-indent: 13px;
+    color: #fff;
+    font-family: "微软雅黑";
+}
+
+.picMask nav {
+    height: 5px;
+    right: 13px;
+    top: 46px;
+    position: absolute;
+}
+
+.picMask nav a {
+    float: left;
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+    background: #fff;
+    opacity: 0.5;
+    margin-left: 8px;
+}
+
+.picMask nav a.active {
+    opacity: 1;
+}
