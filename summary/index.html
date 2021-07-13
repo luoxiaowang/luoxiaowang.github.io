@@ -13,11 +13,11 @@
 
     <title>
         
-          Reset CSS - FlyKnows
+          Summary - FlyKnows
         
     </title>
 
-    <link rel="canonical" href="http://flyknows.com/2015/01/28/Reset CSS/">
+    <link rel="canonical" href="http://flyknows.com/summary/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -196,103 +196,213 @@
 
 
     <!-- Main Content -->
-    
-<!-- Image to hack wechat -->
-<!-- <img src="http://flyknows.com/image/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
-
-<!-- Post Header -->
-<style type="text/css">
-    header.intro-header{
-        background-image: url('/image/bg/home-bg2.jpg')
-    }
-</style>
-<header class="intro-header">
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/image/about-bg.jpg')">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <div class="tags">
-                        
-                          <a class="tag" href="/tags/#CSS" title="CSS">CSS</a>
-                        
-                    </div>
-                    <h1>Reset CSS</h1>
-                    <h2 class="subheading"></h2>
-                    <span class="meta">
-                        Posted by luoxiao on
-                        2015-01-28
-                    </span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>Summary</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">文章摘要</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
 
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
     <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
 
-                <p>本文主要展示一下自己在开发过程中会用到的reset.css的一些样式。<br><a id="more"></a><br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">CSS Reset</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 清除内外边距 */</span></span><br><span class="line"><span class="selector-tag">body</span>, <span class="selector-tag">h1</span>, <span class="selector-tag">h2</span>, <span class="selector-tag">h3</span>, <span class="selector-tag">h4</span>, <span class="selector-tag">h5</span>, <span class="selector-tag">h6</span>, <span class="selector-tag">hr</span>, <span class="selector-tag">p</span>, <span class="selector-tag">blockquote</span>, <span class="comment">/* structural elements 结构元素 */</span></span><br><span class="line"><span class="selector-tag">dl</span>, <span class="selector-tag">dt</span>, <span class="selector-tag">dd</span>, <span class="selector-tag">ul</span>, <span class="selector-tag">ol</span>, <span class="selector-tag">li</span>, <span class="comment">/* list elements 列表元素 */</span></span><br><span class="line"><span class="selector-tag">pre</span>, <span class="comment">/* text formatting elements 文本格式元素 */</span></span><br><span class="line"><span class="selector-tag">fieldset</span>, <span class="selector-tag">lengend</span>, <span class="selector-tag">button</span>, <span class="selector-tag">input</span>, <span class="selector-tag">textarea</span>, <span class="comment">/* form elements 表单元素 */</span></span><br><span class="line"><span class="selector-tag">th</span>, <span class="selector-tag">td</span> &#123; <span class="comment">/* table elements 表格元素 */</span></span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">h1</span> &#123; <span class="attribute">font-size</span>: <span class="number">18px</span>; <span class="comment">/* 18px / 12px = 1.5 */</span> &#125;</span><br><span class="line"><span class="selector-tag">h2</span> &#123; <span class="attribute">font-size</span>: <span class="number">16px</span>; &#125;</span><br><span class="line"><span class="selector-tag">h3</span> &#123; <span class="attribute">font-size</span>: <span class="number">14px</span>; &#125;</span><br><span class="line"><span class="selector-tag">h4</span>, <span class="selector-tag">h5</span>, <span class="selector-tag">h6</span> &#123; <span class="attribute">font-size</span>: <span class="number">100%</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">address</span>, <span class="selector-tag">cite</span>, <span class="selector-tag">dfn</span>, <span class="selector-tag">em</span>, <span class="selector-tag">var</span> &#123; <span class="attribute">font-style</span>: normal; &#125; <span class="comment">/* 将斜体扶正 */</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">small</span> &#123; <span class="attribute">font-size</span>: <span class="number">12px</span>; &#125; <span class="comment">/* 小于 12px 的中文很难阅读，让 small 正常化 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 重置列表元素 */</span></span><br><span class="line"><span class="selector-tag">ul</span>, <span class="selector-tag">ol</span> &#123; <span class="attribute">list-style</span>: none; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 重置文本格式元素 */</span></span><br><span class="line"><span class="selector-tag">a</span> &#123; <span class="attribute">text-decoration</span>: none; &#125;</span><br><span class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:hover</span> &#123; <span class="attribute">text-decoration</span>: underline; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 重置表单元素 */</span></span><br><span class="line"><span class="selector-tag">legend</span> &#123; <span class="attribute">color</span>: <span class="number">#000</span>; &#125; <span class="comment">/* for ie6 */</span></span><br><span class="line"><span class="selector-tag">fieldset</span>, <span class="selector-tag">img</span> &#123; <span class="attribute">border</span>: none; &#125; <span class="comment">/* img 搭车：让链接里的 img 无边框 */</span></span><br><span class="line"><span class="comment">/* 注：optgroup 无法扶正 */</span></span><br><span class="line"><span class="selector-tag">button</span>, <span class="selector-tag">input</span>, <span class="selector-tag">select</span>, <span class="selector-tag">textarea</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">100%</span>; <span class="comment">/* 使得表单元素在 ie 下能继承字体大小 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 重置表格元素 */</span></span><br><span class="line"><span class="selector-tag">table</span> &#123;</span><br><span class="line">    <span class="attribute">border-collapse</span>: collapse;</span><br><span class="line">    <span class="attribute">border-spacing</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+                <blockquote>
+<p>fragment</p>
+</blockquote>
+<ul>
+<li>“我总觉得音乐 ，是最可怕的记忆载体 ，它可以打破一切时间 ，或者空间的限制， 让人瞬间回到那些 ，它流淌的过往。”   ——艾情</li>
+</ul>
+<ul>
+<li>我希望有个如你一般的人，如山间清爽的风，如古城温暖的光，从清晨到夜晚，从山野到书房，一切都没有关系，只要最后是你就好，一个人，终将拥有另一个人，对你点点头，贯彻未来，数遍生命的公路牌。 ——从你的全世界路过</li>
+</ul>
 
 
-                <hr>
-
+                <!-- 如果开启评论功能 -->
                 
+                    <hr>
 
-                <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2015/02/07/前端学习计划/" data-toggle="tooltip" data-placement="top" title="前端学习计划">&larr; Previous Post</a>
-                        </li>
-                    
-                    
-                        <li class="next">
-                            <a href="/2015/01/27/CSS模态框/" data-toggle="tooltip" data-placement="top" title="CSS模态框">Next Post &rarr;</a>
-                        </li>
-                    
-                </ul>
 
-                
+                    
+                    <!-- disqus 评论框 start -->
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                    <!-- disqus 评论框 end -->
+                    
 
-                
-                <!-- disqus 评论框 start -->
-                <div class="comment">
-                    <div id="disqus_thread" class="disqus-thread"></div>
-                </div>
-                <!-- disqus 评论框 end -->
+
+                    
+
+                    
+                    <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+                    <script type="text/javascript">
+                        /* * * CONFIGURATION VARIABLES * * */
+                        var disqus_shortname = "hexo-theme-huxblog";
+                        var disqus_identifier = "http://flyknows.com/summary/index.html";
+                        var disqus_url = "http://flyknows.com/summary/index.html";
+
+                        (function() {
+                            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                        })();
+
+
+                    </script>
+                    <!-- disqus 公共JS代码 end -->
+                    
+
+
+
                 
 
             </div>
-    <!-- Side Catalog Container -->
-        
-
     <!-- Sidebar Container -->
-
             <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
                 <!-- Featured Tags -->
                 
                 <section>
                     <!-- no hr -->
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
-                       
-                          <a class="tag" href="/tags/#CSS" title="CSS">CSS</a>
+                        
+                            
+                            <a href="/tags/#前端技术" title="前端技术" rel="7">前端技术</a>
+                            
+                        
+                            
+                            <a href="/tags/#CSS" title="CSS" rel="7">CSS</a>
+                            
+                        
+                            
+                            <a href="/tags/#前端工具" title="前端工具" rel="7">前端工具</a>
+                            
+                        
+                            
+                            <a href="/tags/#Javascript" title="Javascript" rel="8">Javascript</a>
+                            
+                        
+                            
+                            <a href="/tags/#Webpack" title="Webpack" rel="2">Webpack</a>
+                            
+                        
+                            
+                            <a href="/tags/#React" title="React" rel="2">React</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#乱七八糟" title="乱七八糟" rel="6">乱七八糟</a>
+                            
+                        
+                            
+                            <a href="/tags/#nodejs" title="nodejs" rel="4">nodejs</a>
+                            
+                        
+                            
+                            <a href="/tags/#设计模式" title="设计模式" rel="3">设计模式</a>
+                            
                         
                     </div>
                 </section>
                 
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+
+                        
+                            <img src="/image/bg/person.png">
+                        
+
+                        
+                            <p>罗肖<br>小红书FE<br>热爱前端，热爱旅游，望有生之年能环游世界<br>人生是一场旅行，希望自己能有多远，浪多远！</p>
+                        
+
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                            
+                                <li>
+                                    <a target="_blank" href="https://www.zhihu.com/people/luo-xiao-97">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa  fa-stack-1x fa-inverse">知</i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+                                <li>
+                                    <a target="_blank" href="http://weibo.com/2680309633">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+
+                            
+                                <li>
+                                    <a target="_blank" href="https://github.com/luoxiaowang">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+
+                            
+                                <li>
+                                    <a target="_blank" href="https://www.linkedin.com/in/肖-罗-46b9b4112">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    </div>
+                </section>
 
                 <!-- Friends Blog -->
                 
@@ -308,66 +418,9 @@
                 </ul>
                 
             </div>
-
-        </div>
+        
     </div>
-</article>
-
-
-
-
-<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES * * */
-    var disqus_shortname = "hexo-theme-huxblog";
-    var disqus_identifier = "http://flyknows.com/2015/01/28/Reset CSS/";
-    var disqus_url = "http://flyknows.com/2015/01/28/Reset CSS/";
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<!-- disqus 公共JS代码 end -->
-
-
-
-
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
-<script>
-    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
-        anchors.options = {
-          visible: 'always',
-          placement: 'right',
-          icon: '#'
-        };
-        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
-    })
-</script>
-<style>
-    /* place left on bigger screen */
-    @media all and (min-width: 800px) {
-        .anchorjs-link{
-            position: absolute;
-            left: -0.75em;
-            font-size: 1.1em;
-            margin-top : -0.1em;
-        }
-    }
-</style>
-
+</div>
 
 
     <!-- Footer -->
